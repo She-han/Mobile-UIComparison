@@ -31,7 +31,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $moduleDir   = Join-Path $PSScriptRoot 'MobilePOSUITests'
 $actualDir   = Join-Path $moduleDir 'build/visual_outputs/actual'
-$baselineDir = Join-Path $moduleDir 'test/resources/visual_outputs/baseline'
+$baselineDir = Join-Path $moduleDir 'build/visual_outputs/baseline'
 $reportHtml  = Join-Path $moduleDir 'build/reports/visual-regression/Visual-Report.html'
 $classesDir  = Join-Path $moduleDir 'target/classes'
 

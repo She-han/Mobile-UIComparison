@@ -1,0 +1,24 @@
+Feature: Item return on Portugal Fiscal POS
+
+  @PT-5009 @Fiscalisation @Portugal @FiscalPortugalItemSale @AUTOMATED @ManualVerification
+  Scenario: Item return on Portugal Fiscal POS
+    Given "Confirm Document Series Successfull Prompt" page is shown
+    When user presses "OK" button
+    Then "Enter User" page is shown
+    Given user signs on as "Portugal Fiscal Sales Assistant"
+    When user presses "Returns" button
+    And user presses "Return Item" button and "Enter Return Item" page shown
+    And user enters "${Product Fiscal PT 2}" into "Input Box" field
+    And user presses "ENT" button and "Select Reason" page shown
+    And user selects "Item Return Alert" from "Selection List" list
+    And user presses "OK" button and "Select Sales Person" page shown
+    And user selects "${Portugal Fiscal Sales Assistant Username}" from "Selection List" list
+    And user presses "OK" button and "Transaction Basket" page shown
+    When user presses "TOTAL" button and "Refund Item" page shown
+    And user presses "Cash" button and "Enter Cash Tender Amount" page shown
+    And user presses "OK" button and "Transaction Signature Verification" page shown
+    And user presses "Signature OK" button and "Await Drawer Closed" page shown
+    And user presses "Close" button on external "Cash Drawer" window
+    Then "Transaction Basket" page is shown
+    When user presses "SignOff" button
+    And "Enter User" page is shown

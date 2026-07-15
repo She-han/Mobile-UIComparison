@@ -104,7 +104,7 @@
                     <div class="method-list-content failed suite-Pos_test">
                       <span>
                         <img src="failed.png" width="3%"/>
-                        <a href="#" panel-name="suite-Pos_test" title="com.enactor.core.automation.cucumber.RunCucumberTests" class="method navigator-link" hash-for-method="runScenario(&quot;Perform a sale transaction and tender with gift voucher with value less than transaction amount and...)">runScenario("Perform a sale transaction and tender with gift voucher with value less than transaction amount and...)</a> <!-- method navigator-link -->
+                        <a href="#" panel-name="suite-Pos_test" title="com.enactor.core.automation.cucumber.RunCucumberTests" class="method navigator-link" hash-for-method="runScenario(&quot;View Gift Card history&quot;, &quot;Gift Card&quot;)">runScenario("View Gift Card history", "Gift Card")</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                     </div> <!-- method-list-content failed suite-Pos_test -->
@@ -127,19 +127,84 @@
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="runScenario(&quot;Perform a sale transaction and tender with gift voucher with value less than transaction amount and...)">
-                  </a> <!-- runScenario("Perform a sale transaction and tender with gift voucher with value less than transaction amount and...) -->
+                  <a name="runScenario(&quot;View Gift Card history&quot;, &quot;Gift Card&quot;)">
+                  </a> <!-- runScenario("View Gift Card history", "Gift Card") -->
                   <span class="method-name">runScenario</span>
-                  <span class="parameters">("Perform a sale transaction and tender with gift voucher with value less than transaction amount and tender balance with cash", "Gift voucher redemption")</span>
-                  <div class="stack-trace">java.lang.NumberFormatException: Cannot parse null string
-	at java.base/java.lang.Integer.parseInt(Integer.java:630)
-	at java.base/java.lang.Integer.parseInt(Integer.java:786)
-	at com.enactor.pos.web.BaseWebPosStepsProvider.getBasketItemsCount(BaseWebPosStepsProvider.java:126)
-	at com.enactor.pos.web.BaseWebPosStepsProvider.pressButton(BaseWebPosStepsProvider.java:516)
-	at com.enactor.pos.mobile.web.MobileWebPosStepProvider.pressButton(MobileWebPosStepProvider.java:75)
-	at com.enactor.retail.pos.stepDefinitions.CommonPosSteps.userPressesButtonOnCurrentPage(CommonPosSteps.java:121)
-	at ✽.user presses &quot;ENT&quot; button(file:///D:/RDF_POS_Test/MobilePOSAutomationTests-UIComparison/Mobile-UIComparison/MobilePOSUITests/target/dependencyTests/feature/retail/pos/posRetailFunctions/vouchers/GiftVoucherRedemption.feature:35)
-
+                  <span class="parameters">("View Gift Card history", "Gift Card")</span>
+                  <div class="stack-trace">com.enactor.core.automation.AUT.AutomationException: Expected condition failed: waiting for com.enactor.core.automation.controller.BaseWebController$4@1332dec4 (tried for 40 second(s) with 1000 milliseconds interval)
+	at com.enactor.core.automation.controller.BaseWebController.findElementFluently(BaseWebController.java:315)
+	at com.enactor.core.automation.controller.BaseWebController.waitForElement(BaseWebController.java:219)
+	at com.enactor.core.automation.controller.BaseWebController.waitForElement(BaseWebController.java:193)
+	at com.enactor.pos.mobile.web.MobileWebPosStepProvider.checkWindow(MobileWebPosStepProvider.java:42)
+	at com.enactor.pos.web.BaseWebPosStepsProvider.checkWindow(BaseWebPosStepsProvider.java:107)
+	at com.enactor.retail.pos.stepDefinitions.CommonPosSteps.checkPageShown(CommonPosSteps.java:366)
+	at com.enactor.retail.pos.stepDefinitions.CommonPosSteps.userPressesButtonOnCurrentPageAndPageShown(CommonPosSteps.java:215)
+	at ✽.user presses &quot;OK&quot; button and &quot;Gift Card History List&quot; page shown(file:///D:/RDF_POS_Test/MobilePOSAutomationTests-UIComparison/Mobile-UIComparison/MobilePOSUITests/target/dependencyTests/feature/retail/pos/posRetailFunctions/giftCards/GiftCard.feature:181)
+Caused by: org.openqa.selenium.TimeoutException: Expected condition failed: waiting for com.enactor.core.automation.controller.BaseWebController$4@1332dec4 (tried for 40 second(s) with 1000 milliseconds interval)
+	at org.openqa.selenium.support.ui.FluentWait.timeoutException(FluentWait.java:304)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:272)
+	at com.enactor.core.automation.controller.BaseWebController.findElementFluently(BaseWebController.java:309)
+	at com.enactor.core.automation.controller.BaseWebController.waitForElement(BaseWebController.java:219)
+	at com.enactor.core.automation.controller.BaseWebController.waitForElement(BaseWebController.java:193)
+	at com.enactor.pos.mobile.web.MobileWebPosStepProvider.checkWindow(MobileWebPosStepProvider.java:42)
+	at com.enactor.pos.web.BaseWebPosStepsProvider.checkWindow(BaseWebPosStepsProvider.java:107)
+	at com.enactor.retail.pos.stepDefinitions.CommonPosSteps.checkPageShown(CommonPosSteps.java:366)
+	at com.enactor.retail.pos.stepDefinitions.CommonPosSteps.userPressesButtonOnCurrentPageAndPageShown(CommonPosSteps.java:215)
+	at io.cucumber.java.Invoker.doInvoke(Invoker.java:66)
+	at io.cucumber.java.Invoker.invoke(Invoker.java:24)
+	at io.cucumber.java.AbstractGlueDefinition.invokeMethod(AbstractGlueDefinition.java:47)
+	at io.cucumber.java.JavaStepDefinition.execute(JavaStepDefinition.java:29)
+	at io.cucumber.core.runner.CoreStepDefinition.execute(CoreStepDefinition.java:66)
+	at io.cucumber.core.runner.PickleStepDefinitionMatch.runStep(PickleStepDefinitionMatch.java:63)
+	at io.cucumber.core.runner.ExecutionMode$1.execute(ExecutionMode.java:10)
+	at io.cucumber.core.runner.TestStep.executeStep(TestStep.java:84)
+	at io.cucumber.core.runner.TestStep.run(TestStep.java:56)
+	at io.cucumber.core.runner.PickleStepTestStep.run(PickleStepTestStep.java:51)
+	at io.cucumber.core.runner.TestCase.run(TestCase.java:84)
+	at io.cucumber.core.runner.Runner.runPickle(Runner.java:75)
+	at io.cucumber.testng.TestNGCucumberRunner.lambda$runScenario$1(TestNGCucumberRunner.java:132)
+	at io.cucumber.core.runtime.CucumberExecutionContext.lambda$runTestCase$5(CucumberExecutionContext.java:130)
+	at io.cucumber.core.runtime.RethrowingThrowableCollector.executeAndThrow(RethrowingThrowableCollector.java:23)
+	at io.cucumber.core.runtime.CucumberExecutionContext.runTestCase(CucumberExecutionContext.java:130)
+	at io.cucumber.testng.TestNGCucumberRunner.runScenario(TestNGCucumberRunner.java:129)
+	at com.enactor.core.automation.cucumber.RunCucumberTests.runScenario(RunCucumberTests.java:72)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;xpath&quot;,&quot;selector&quot;:&quot;//*[@id=&apos;Pos-GiftCard-GiftCardHistory.Pos-GiftCard-GiftCardHistoryList&apos;]&quot;}
+  (Session info: chrome=150.0.7871.46)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: &apos;3.141.59&apos;, revision: &apos;e82be7d358&apos;, time: &apos;2018-11-14T08:17:03&apos;
+System info: host: &apos;LK-LSB88GA-SHEH&apos;, ip: &apos;10.3.31.144&apos;, os.name: &apos;Windows 11&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;17.0.2&apos;
+Driver info: io.appium.java_client.android.AndroidDriver
+Capabilities {androidDeviceReadyTimeout: 60, appActivity: com.enactor.pos.MainActivity, appPackage: com.enactor.pos, autoGrantPermissions: true, autoLaunch: false, automationName: UiAutomator2, chromedriverExecutable: D:\Data\chromedriver-win64\..., chromedriverUseSystemExecutable: false, clearDeviceLogsOnStart: false, databaseEnabled: false, desired: {androidDeviceReadyTimeout: 60, appActivity: com.enactor.pos.MainActivity, appPackage: com.enactor.pos, autoGrantPermissions: true, autoLaunch: false, automationName: UiAutomator2, chromedriverExecutable: D:\Data\chromedriver-win64\..., chromedriverUseSystemExecutable: false, clearDeviceLogsOnStart: false, ensureWebviewsHavePages: true, fullReset: false, nativeWebTap: false, newCommandTimeout: 0, noReset: true, platformName: android, platformVersion: 15, udid: R58X508H3SY, webviewConnectTimeout: 900000}, deviceApiLevel: 36, deviceManufacturer: samsung, deviceModel: SM-A155F, deviceName: R58X508H3SY, deviceScreenDensity: 450, deviceScreenSize: 1080x2340, deviceUDID: R58X508H3SY, ensureWebviewsHavePages: true, fullReset: false, javascriptEnabled: true, locationContextEnabled: false, nativeWebTap: false, networkConnectionEnabled: true, newCommandTimeout: 0, noReset: true, pixelRatio: 2.8125, platform: LINUX, platformName: Android, platformVersion: 16, statBarHeight: 80, takesScreenshot: true, udid: R58X508H3SY, viewportRect: {height: 2260, left: 0, top: 80, width: 1080}, warnings: {}, webStorageEnabled: false, webviewConnectTimeout: 900000}
+Session ID: 85ab6187-d4ee-4b93-9580-d67cf1d1e2a0
+*** Element info: {Using=xpath, value=//*[@id=&apos;Pos-GiftCard-GiftCardHistory.Pos-GiftCard-GiftCardHistoryList&apos;]}
+	at org.openqa.selenium.remote.http.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:187)
+	at org.openqa.selenium.remote.http.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:122)
+	at org.openqa.selenium.remote.http.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:49)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:158)
+	at io.appium.java_client.remote.AppiumCommandExecutor.execute(AppiumCommandExecutor.java:247)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:552)
+	at io.appium.java_client.DefaultGenericMobileDriver.execute(DefaultGenericMobileDriver.java:41)
+	at io.appium.java_client.AppiumDriver.execute(AppiumDriver.java:1)
+	at io.appium.java_client.android.AndroidDriver.execute(AndroidDriver.java:1)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:323)
+	at io.appium.java_client.DefaultGenericMobileDriver.findElement(DefaultGenericMobileDriver.java:61)
+	at io.appium.java_client.AppiumDriver.findElement(AppiumDriver.java:1)
+	at io.appium.java_client.android.AndroidDriver.findElement(AndroidDriver.java:1)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:428)
+	at io.appium.java_client.DefaultGenericMobileDriver.findElementByXPath(DefaultGenericMobileDriver.java:151)
+	at io.appium.java_client.AppiumDriver.findElementByXPath(AppiumDriver.java:1)
+	at io.appium.java_client.android.AndroidDriver.findElementByXPath(AndroidDriver.java:1)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:353)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:315)
+	at io.appium.java_client.DefaultGenericMobileDriver.findElement(DefaultGenericMobileDriver.java:57)
+	at io.appium.java_client.AppiumDriver.findElement(AppiumDriver.java:1)
+	at io.appium.java_client.android.AndroidDriver.findElement(AndroidDriver.java:1)
+	at com.enactor.core.automation.controller.BaseWebController$4.apply(BaseWebController.java:311)
+	at com.enactor.core.automation.controller.BaseWebController$4.apply(BaseWebController.java:309)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:249)
+	... 61 more
+... Removed 39 stack frames
 </div> <!-- stack-trace -->
                   <em>
 (Run Cucumber Features.)                  </em>
@@ -222,12 +287,12 @@ data.addRows(1);
 data.setCell(0, 0, 0)
 data.setCell(0, 1, 'runScenario')
 data.setCell(0, 2, 'com.enactor.core.automation.cucumber.RunCucumberTests')
-data.setCell(0, 3, 101196);
+data.setCell(0, 3, 121860);
 window.suiteTableData['Pos_test']= { tableData: data, tableDiv: 'times-div-Pos_test'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 1 minutes</span>
+              <span class="suite-total-time">Total running time: 2 minutes</span>
               <div id="times-div-Pos_test">
               </div> <!-- times-div-Pos_test -->
             </div> <!-- times-div -->
@@ -239,22 +304,22 @@ return data;
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="reporter-method-div">
-              <span class="reporter-method-name">runScenario("Perform a sale transaction and tender with gift voucher with value less than transaction amount and...)</span>
+              <span class="reporter-method-name">runScenario("View Gift Card history", "Gift Card")</span>
               <div class="reporter-method-output-div">
-                <span class="reporter-method-output">@PT-6, @AUTOMATED, @MVP, @Mobile, @GiftVoucherRedemption_GiftVoucherLessThanTransactionAmount, @GiftVoucherRedemption, @POS, @Smoke, @POSValidatedTest, @POSSet4</span>
+                <span class="reporter-method-output">@PT-5, @SET2, @ToBeFixedAutTest, @ViewGiftCardHistory, @GiftCard, @POS, @Dunelm, @JYSK, @MVP, @AUTOMATED, @ReactPOS, @POSValidatedTest, @POSSet2</span>
                 <span class="reporter-method-output">App is running. Terminating...<br/></span>
                 <span class="reporter-method-output">Launching app...<br/></span>
                 <span class="reporter-method-output">Current contexts: [NATIVE_APP, WEBVIEW_stetho_com.google.android.apps.messaging] and waiting for target context: WEBVIEW_com.enactor.pos<br/></span>
                 <span class="reporter-method-output">Target context found: WEBVIEW_com.enactor.pos<br/></span>
                 <span class="reporter-method-output">Entering text '000101' into element 'By.xpath: //input[@test-component-id='INPUT_TEXT_1']|//textarea[@test-component-id='INPUT_TEXT_1']<br/></span>
-                <span class="reporter-method-output">Attempting to resolve timeout by scrolling into view (50, 159);<br/></span>
-                <span class="reporter-method-output">Entered text '000101' into element '[[io.appium.java_client.android.AndroidDriver, Capabilities: {androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, automationName=UiAutomator2, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, databaseEnabled=false, desired={platformName=android, androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, ensureWebviewsHavePages=true, nativeWebTap=false, webviewConnectTimeout=900000, automationName=UiAutomator2, fullReset=false, newCommandTimeout=0, noReset=true, platformVersion=15, udid=37201FDJH0040J}, deviceApiLevel=36, deviceManufacturer=Google, deviceModel=Pixel 8, deviceName=37201FDJH0040J, deviceScreenDensity=420, deviceScreenSize=1080x2400, deviceUDID=37201FDJH0040J, ensureWebviewsHavePages=true, fullReset=false, javascriptEnabled=true, locationContextEnabled=false, nativeWebTap=false, networkConnectionEnabled=true, newCommandTimeout=0, noReset=true, pixelRatio=2.625, platform=LINUX, platformName=Android, platformVersion=16, statBarHeight=132, takesScreenshot=true, udid=37201FDJH0040J, viewportRect={left=0, top=132, width=1080, height=2268}, warnings={}, webStorageEnabled=false, webviewConnectTimeout=900000}] -> xpath: //input[@test-component-id='INPUT_TEXT_1']|//textarea[@test-component-id='INPUT_TEXT_1']]<br/></span>
+                <span class="reporter-method-output">Attempting to resolve timeout by scrolling into view (49, 159);<br/></span>
+                <span class="reporter-method-output">Entered text '000101' into element '[[io.appium.java_client.android.AndroidDriver, Capabilities: {androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, automationName=UiAutomator2, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, databaseEnabled=false, desired={platformName=android, androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, ensureWebviewsHavePages=true, nativeWebTap=false, webviewConnectTimeout=900000, automationName=UiAutomator2, fullReset=false, newCommandTimeout=0, noReset=true, platformVersion=15, udid=R58X508H3SY}, deviceApiLevel=36, deviceManufacturer=samsung, deviceModel=SM-A155F, deviceName=R58X508H3SY, deviceScreenDensity=450, deviceScreenSize=1080x2340, deviceUDID=R58X508H3SY, ensureWebviewsHavePages=true, fullReset=false, javascriptEnabled=true, locationContextEnabled=false, nativeWebTap=false, networkConnectionEnabled=true, newCommandTimeout=0, noReset=true, pixelRatio=2.8125, platform=LINUX, platformName=Android, platformVersion=16, statBarHeight=80, takesScreenshot=true, udid=R58X508H3SY, viewportRect={left=0, top=80, width=1080, height=2260}, warnings={}, webStorageEnabled=false, webviewConnectTimeout=900000}] -> xpath: //input[@test-component-id='INPUT_TEXT_1']|//textarea[@test-component-id='INPUT_TEXT_1']]<br/></span>
                 <span class="reporter-method-output">Entering text '000101' into element 'By.xpath: //input[@test-component-id='INPUT_TEXT_2']|//textarea[@test-component-id='INPUT_TEXT_2']<br/></span>
-                <span class="reporter-method-output">Attempting to resolve timeout by scrolling into view (50, 245);<br/></span>
-                <span class="reporter-method-output">Entered text '000101' into element '[[io.appium.java_client.android.AndroidDriver, Capabilities: {androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, automationName=UiAutomator2, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, databaseEnabled=false, desired={platformName=android, androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, ensureWebviewsHavePages=true, nativeWebTap=false, webviewConnectTimeout=900000, automationName=UiAutomator2, fullReset=false, newCommandTimeout=0, noReset=true, platformVersion=15, udid=37201FDJH0040J}, deviceApiLevel=36, deviceManufacturer=Google, deviceModel=Pixel 8, deviceName=37201FDJH0040J, deviceScreenDensity=420, deviceScreenSize=1080x2400, deviceUDID=37201FDJH0040J, ensureWebviewsHavePages=true, fullReset=false, javascriptEnabled=true, locationContextEnabled=false, nativeWebTap=false, networkConnectionEnabled=true, newCommandTimeout=0, noReset=true, pixelRatio=2.625, platform=LINUX, platformName=Android, platformVersion=16, statBarHeight=132, takesScreenshot=true, udid=37201FDJH0040J, viewportRect={left=0, top=132, width=1080, height=2268}, warnings={}, webStorageEnabled=false, webviewConnectTimeout=900000}] -> xpath: //input[@test-component-id='INPUT_TEXT_2']|//textarea[@test-component-id='INPUT_TEXT_2']]<br/></span>
-                <span class="reporter-method-output">Entering text '500100' into element 'By.xpath: //input[@test-component-id='InputBox']|//textarea[@test-component-id='InputBox']<br/></span>
-                <span class="reporter-method-output">Attempting to resolve timeout by scrolling into view (15, 707);<br/></span>
-                <span class="reporter-method-output">Entered text '500100' into element '[[io.appium.java_client.android.AndroidDriver, Capabilities: {androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, automationName=UiAutomator2, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, databaseEnabled=false, desired={platformName=android, androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, ensureWebviewsHavePages=true, nativeWebTap=false, webviewConnectTimeout=900000, automationName=UiAutomator2, fullReset=false, newCommandTimeout=0, noReset=true, platformVersion=15, udid=37201FDJH0040J}, deviceApiLevel=36, deviceManufacturer=Google, deviceModel=Pixel 8, deviceName=37201FDJH0040J, deviceScreenDensity=420, deviceScreenSize=1080x2400, deviceUDID=37201FDJH0040J, ensureWebviewsHavePages=true, fullReset=false, javascriptEnabled=true, locationContextEnabled=false, nativeWebTap=false, networkConnectionEnabled=true, newCommandTimeout=0, noReset=true, pixelRatio=2.625, platform=LINUX, platformName=Android, platformVersion=16, statBarHeight=132, takesScreenshot=true, udid=37201FDJH0040J, viewportRect={left=0, top=132, width=1080, height=2268}, warnings={}, webStorageEnabled=false, webviewConnectTimeout=900000}] -> xpath: //input[@test-component-id='InputBox']|//textarea[@test-component-id='InputBox']]<br/></span>
+                <span class="reporter-method-output">Attempting to resolve timeout by scrolling into view (49, 245);<br/></span>
+                <span class="reporter-method-output">Entered text '000101' into element '[[io.appium.java_client.android.AndroidDriver, Capabilities: {androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, automationName=UiAutomator2, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, databaseEnabled=false, desired={platformName=android, androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, ensureWebviewsHavePages=true, nativeWebTap=false, webviewConnectTimeout=900000, automationName=UiAutomator2, fullReset=false, newCommandTimeout=0, noReset=true, platformVersion=15, udid=R58X508H3SY}, deviceApiLevel=36, deviceManufacturer=samsung, deviceModel=SM-A155F, deviceName=R58X508H3SY, deviceScreenDensity=450, deviceScreenSize=1080x2340, deviceUDID=R58X508H3SY, ensureWebviewsHavePages=true, fullReset=false, javascriptEnabled=true, locationContextEnabled=false, nativeWebTap=false, networkConnectionEnabled=true, newCommandTimeout=0, noReset=true, pixelRatio=2.8125, platform=LINUX, platformName=Android, platformVersion=16, statBarHeight=80, takesScreenshot=true, udid=R58X508H3SY, viewportRect={left=0, top=80, width=1080, height=2260}, warnings={}, webStorageEnabled=false, webviewConnectTimeout=900000}] -> xpath: //input[@test-component-id='INPUT_TEXT_2']|//textarea[@test-component-id='INPUT_TEXT_2']]<br/></span>
+                <span class="reporter-method-output">Entering text '9526300500192837461' into element 'By.xpath: //input[@test-component-id='InputBox']|//textarea[@test-component-id='InputBox']<br/></span>
+                <span class="reporter-method-output">Attempting to resolve timeout by scrolling into view (15, 647);<br/></span>
+                <span class="reporter-method-output">Entered text '9526300500192837461' into element '[[io.appium.java_client.android.AndroidDriver, Capabilities: {androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, automationName=UiAutomator2, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, databaseEnabled=false, desired={platformName=android, androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, ensureWebviewsHavePages=true, nativeWebTap=false, webviewConnectTimeout=900000, automationName=UiAutomator2, fullReset=false, newCommandTimeout=0, noReset=true, platformVersion=15, udid=R58X508H3SY}, deviceApiLevel=36, deviceManufacturer=samsung, deviceModel=SM-A155F, deviceName=R58X508H3SY, deviceScreenDensity=450, deviceScreenSize=1080x2340, deviceUDID=R58X508H3SY, ensureWebviewsHavePages=true, fullReset=false, javascriptEnabled=true, locationContextEnabled=false, nativeWebTap=false, networkConnectionEnabled=true, newCommandTimeout=0, noReset=true, pixelRatio=2.8125, platform=LINUX, platformName=Android, platformVersion=16, statBarHeight=80, takesScreenshot=true, udid=R58X508H3SY, viewportRect={left=0, top=80, width=1080, height=2260}, warnings={}, webStorageEnabled=false, webviewConnectTimeout=900000}] -> xpath: //input[@test-component-id='InputBox']|//textarea[@test-component-id='InputBox']]<br/></span>
                 <span class="reporter-method-output">Current contexts: [NATIVE_APP, WEBVIEW_com.enactor.pos, WEBVIEW_stetho_com.google.android.apps.messaging] and waiting for target context: NATIVE_APP<br/></span>
                 <span class="reporter-method-output">Target context found: NATIVE_APP<br/></span>
                 <span class="reporter-method-output">Current contexts: [NATIVE_APP, WEBVIEW_stetho_com.google.android.apps.messaging] and waiting for target context: WEBVIEW_com.enactor.pos<br/></span>
@@ -278,22 +343,22 @@ return data;
             <div class="chronological-class">
               <div class="chronological-class-name">com.enactor.core.automation.cucumber.RunCucumberTests</div> <!-- chronological-class-name -->
               <div class="configuration-test before">
-                <span class="method-name">beforeTest(org.testng.TestRunner@1653b84e)</span>
+                <span class="method-name">beforeTest(org.testng.TestRunner@226d5af0)</span>
                 <span class="method-start">0 ms</span>
               </div> <!-- configuration-test before -->
               <div class="configuration-class before">
-                <span class="method-name">setUpClass(org.testng.TestRunner@1653b84e)</span>
-                <span class="method-start">29 ms</span>
+                <span class="method-name">setUpClass(org.testng.TestRunner@226d5af0)</span>
+                <span class="method-start">20 ms</span>
               </div> <!-- configuration-class before -->
               <div class="test-method">
                 <img src="failed.png">
                 </img>
-                <span class="method-name">runScenario("Perform a sale transaction and tender with gift voucher with value less than transaction amount and...)</span>
-                <span class="method-start">3084 ms</span>
+                <span class="method-name">runScenario("View Gift Card history", "Gift Card")</span>
+                <span class="method-start">2220 ms</span>
               </div> <!-- test-method -->
               <div class="configuration-class after">
                 <span class="method-name">tearDownClass</span>
-                <span class="method-start">104286 ms</span>
+                <span class="method-start">124089 ms</span>
               </div> <!-- configuration-class after -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->

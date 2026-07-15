@@ -1,5 +1,6 @@
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\utils\AndroidPosTestUtils.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\utils\MobilePosTestUtils.java
+D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\visual\VisualComparisonRunner.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\web\ios\IOSThinClientWebPosStepsProvider.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\web\android\AndroidThinClientReactController.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\web\ios\IOSWebElementWrapper.java
@@ -9,6 +10,8 @@ D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\Mobile
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\web\MobileThinClientReactController.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\IMobileAUTController.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\web\ios\IOSLogicalDeviceStepProvider.java
+D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\visual\DinoComparisonResult.java
+D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\visual\JsonUtil.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\android\AndroidMobileThinClinetTestController.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\web\android\AndroidLogicalDeviceStepProvider.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\MobileThinClinetTestController.java
@@ -20,10 +23,12 @@ D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\Mobile
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\web\WebDriverUtils.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\web\android\AndroidWebPosStepsProvider.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\visual\VisualRegressionDriverRegistry.java
+D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\visual\CropRegion.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\web\MobileLogicalDeviceStepProvider.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\visual\VisualRegressionConfig.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\iOS\IOSMobileThinClientTestController.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\web\IAUTMobileWebController.java
+D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\visual\DinoServerClient.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\web\ILogicalDeviceStepProvider.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\web\MobileWebPosStepProvider.java
 D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\src\com\enactor\pos\mobile\web\android\AndroidWebDriver.java

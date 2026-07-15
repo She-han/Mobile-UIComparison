@@ -1,0 +1,87 @@
+{
+	"id": "df9efe9c-f9ec-4868-9ff8-03213b73b509",
+	"name": "Default Postman Environment",
+	"values": [
+		{
+			"key": "basketReference",
+			"value": "Test_Customer_Basket_001",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "deviceId",
+			"value": "pos1@0003.enactor",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "customerNumber",
+			"value": "6245",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "customerForename",
+			"value": "Mark",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "customerSurname",
+			"value": "Harrison",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "customerTitle",
+			"value": "Mr",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "customerDateOfBirth",
+			"value": "1992-01-01",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "customerEmailAddress",
+			"value": "Harrison",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "customerTelephone",
+			"value": "01295768256",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "basketName",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "product1_Id",
+			"value": "MB709SN-1",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "product2_Id",
+			"value": "DF517XM-1",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "BasketName",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2024-10-16T17:29:06.589Z",
+	"_postman_exported_using": "Postman/11.16.1"
+}

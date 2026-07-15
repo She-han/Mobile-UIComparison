@@ -1,0 +1,8 @@
+/target
+/.settings
+/.classpath
+/.project
+/m2.classpath
+/.checkstyle
+/Application.log
+/OldLogs

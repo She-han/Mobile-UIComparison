@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<tools:typeLibrary xmlns:core="http://www.enactor.com/core" xmlns:retail="http://www.enactor.com/retail" xmlns:tools="http://www.enactor.com/tools" xmlns:ns5="http://maven.apache.org/POM/4.0.0" xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref" xmlns:ns7="tools" version="1">
+    <tools:defaults/>
+    <tools:group name="Automation Process">
+        <tools:entry id="SIGN_ON" name="Sign On">
+            <tools:baseType>EXECUTE_PROCESS_ACTION</tools:baseType>
+            <tools:figureIcon>CALL</tools:figureIcon>
+            <tools:figureIconName></tools:figureIconName>
+            <tools:paletteIconName>callAction.gif</tools:paletteIconName>
+            <tools:width>0</tools:width>
+            <tools:executeProcessAction>
+                <core:defaultNextStateID></core:defaultNextStateID>
+                <core:actionID>Sign On Valid</core:actionID>
+                <core:name></core:name>
+                <core:className>com.enactor.coreUI.actions.UICallProcessAction</core:className>
+                <core:uiHints>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.style</key>
+                        <value>27</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.xloc</key>
+                        <value>1087</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.yloc</key>
+                        <value>290</value>
+                    </entry>
+                </core:uiHints>
+                <core:metaData>
+                    <core:inputs>
+                        <core:input required="true" name="enactor.automation.AUTLauncher">
+                            <core:interfaceName>com.enactor.core.automation.AUT.IAUTLauncher</core:interfaceName>
+                        </core:input>
+                    </core:inputs>
+                    <core:outputs>
+                        <core:output required="true" name="enactor.automation.ActiveWindow">
+                            <core:interfaceName>com.enactor.core.automation.component.IWindowAccessor</core:interfaceName>
+                        </core:output>
+                    </core:outputs>
+                    <core:outcomes>
+                        <core:outcome name="Success"/>
+                    </core:outcomes>
+                </core:metaData>
+                <core:typeId>enactor.types.CallProcess</core:typeId>
+                <core:executeProcessId>Pos/Automation/Access/SignOnValid</core:executeProcessId>
+            </tools:executeProcessAction>
+        </tools:entry>
+        <tools:entry id="CLOSE_CASH_DRAWER" name="Close Cash Drawer">
+            <tools:baseType>EXECUTE_PROCESS_ACTION</tools:baseType>
+            <tools:figureIcon>CALL</tools:figureIcon>
+            <tools:figureIconName></tools:figureIconName>
+            <tools:paletteIconName>callAction.gif</tools:paletteIconName>
+            <tools:width>0</tools:width>
+            <tools:executeProcessAction>
+                <core:defaultNextStateID></core:defaultNextStateID>
+                <core:actionID>CallCloseCashDrawer</core:actionID>
+                <core:name></core:name>
+                <core:className>com.enactor.coreUI.actions.UICallProcessAction</core:className>
+                <core:uiHints>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.style</key>
+                        <value>2047</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.xloc</key>
+                        <value>2483</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.yloc</key>
+                        <value>294</value>
+                    </entry>
+                </core:uiHints>
+                <core:metaData>
+                    <core:inputs>
+                        <core:input required="true" name="enactor.automation.AUTLauncher">
+                            <core:interfaceName>com.enactor.core.automation.AUT.IAUTLauncher</core:interfaceName>
+                        </core:input>
+                    </core:inputs>
+                    <core:outcomes>
+                        <core:outcome name="Success"/>
+                    </core:outcomes>
+                </core:metaData>
+                <core:typeId>enactor.types.CallProcess</core:typeId>
+                <core:executeProcessId>Pos/Automation/Peripherals/CloseCashDrawer</core:executeProcessId>
+            </tools:executeProcessAction>
+        </tools:entry>
+    </tools:group>
+    <tools:group name="Automation Actions">
+        <tools:entry id="CLICK_TOTAL" name="Click Total">
+            <tools:baseType>ACTION</tools:baseType>
+            <tools:figureIcon>NONE</tools:figureIcon>
+            <tools:figureIconName></tools:figureIconName>
+            <tools:paletteIconName>Action.gif</tools:paletteIconName>
+            <tools:width>0</tools:width>
+            <tools:action>
+                <core:defaultNextStateID></core:defaultNextStateID>
+                <core:actionID>Click Total</core:actionID>
+                <core:name>ClickComponentAction</core:name>
+                <core:className>com.enactor.core.automation.actions.ClickComponentAction</core:className>
+                <core:uiHints>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.style</key>
+                        <value>2047</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.xloc</key>
+                        <value>1984</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.yloc</key>
+                        <value>294</value>
+                    </entry>
+                </core:uiHints>
+                <core:param value="Button8" name="enactor.automation.ComponentId">
+                    <core:interfaceName>java.lang.String</core:interfaceName>
+                </core:param>
+                <core:metaData>
+                    <core:inputs>
+                        <core:input required="true" name="enactor.automation.ActiveWindow">
+                            <core:interfaceName>com.enactor.core.automation.component.IWindowAccessor</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.ComponentId">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                    </core:inputs>
+                    <core:outcomes>
+                        <core:outcome name="Success"/>
+                    </core:outcomes>
+                </core:metaData>
+            </tools:action>
+        </tools:entry>
+        <tools:entry id="SELECT_RECEIPT_ITEM" name="Select Receipt Item">
+            <tools:baseType>ACTION</tools:baseType>
+            <tools:figureIcon>NONE</tools:figureIcon>
+            <tools:figureIconName></tools:figureIconName>
+            <tools:paletteIconName>Action.gif</tools:paletteIconName>
+            <tools:width>0</tools:width>
+            <tools:action>
+                <core:defaultNextStateID></core:defaultNextStateID>
+                <core:actionID>Click Receipt</core:actionID>
+                <core:name>ClickComponentAction</core:name>
+                <core:className>com.enactor.core.automation.actions.ClickListComponentAction</core:className>
+                <core:uiHints>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.style</key>
+                        <value>2047</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.xloc</key>
+                        <value>3135</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.yloc</key>
+                        <value>487</value>
+                    </entry>
+                </core:uiHints>
+                <core:param value="Receipt" name="enactor.automation.ComponentId">
+                    <core:interfaceName>java.lang.String</core:interfaceName>
+                </core:param>
+                <core:param value="1" name="enactor.automation.RowIndex">
+                    <core:interfaceName>java.lang.Integer</core:interfaceName>
+                </core:param>
+                <core:metaData>
+                    <core:inputs>
+                        <core:input required="true" name="enactor.automation.ActiveWindow">
+                            <core:interfaceName>com.enactor.core.automation.component.IWindowAccessor</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.ComponentId">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.RowIndex">
+                            <core:interfaceName>java.lang.Integer</core:interfaceName>
+                        </core:input>
+                    </core:inputs>
+                    <core:outcomes>
+                        <core:outcome name="Success"/>
+                    </core:outcomes>
+                </core:metaData>
+            </tools:action>
+        </tools:entry>
+        <tools:entry id="INSERT_INPUT_TEXT" name="Insert Input Text">
+            <tools:baseType>ACTION</tools:baseType>
+            <tools:figureIcon>NONE</tools:figureIcon>
+            <tools:figureIconName></tools:figureIconName>
+            <tools:paletteIconName>Action.gif</tools:paletteIconName>
+            <tools:width>0</tools:width>
+            <tools:action>
+                <core:defaultNextStateID></core:defaultNextStateID>
+                <core:actionID>Enter Product ID</core:actionID>
+                <core:name>InputTextAction</core:name>
+                <core:className>com.enactor.core.automation.actions.InputTextAction</core:className>
+                <core:uiHints>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.style</key>
+                        <value>2047</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.xloc</key>
+                        <value>477</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.yloc</key>
+                        <value>344</value>
+                    </entry>
+                </core:uiHints>
+                <core:param value="InputBox" name="enactor.automation.ComponentId">
+                    <core:interfaceName>java.lang.String</core:interfaceName>
+                </core:param>
+                <core:param value="2" name="String">
+                    <core:interfaceName>java.lang.String</core:interfaceName>
+                </core:param>
+                <core:metaData>
+                    <core:inputs>
+                        <core:input required="true" name="enactor.automation.ActiveWindow">
+                            <core:interfaceName>com.enactor.core.automation.component.IWindowAccessor</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.ComponentId">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="String">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                    </core:inputs>
+                    <core:outcomes>
+                        <core:outcome name="Success"/>
+                    </core:outcomes>
+                </core:metaData>
+            </tools:action>
+        </tools:entry>
+        <tools:entry id="SEND_ENTER_PRESS" name="Send Enter Press">
+            <tools:baseType>ACTION</tools:baseType>
+            <tools:figureIcon>NONE</tools:figureIcon>
+            <tools:figureIconName></tools:figureIconName>
+            <tools:paletteIconName>Action.gif</tools:paletteIconName>
+            <tools:width>0</tools:width>
+            <tools:action>
+                <core:defaultNextStateID></core:defaultNextStateID>
+                <core:actionID>Send Enter</core:actionID>
+                <core:name>Send Enter</core:name>
+                <core:className>com.enactor.core.automation.actions.SendKeyStrokeAction</core:className>
+                <core:uiHints>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.style</key>
+                        <value>2047</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.xloc</key>
+                        <value>713</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.yloc</key>
+                        <value>347</value>
+                    </entry>
+                </core:uiHints>
+                <core:param value="InputBox" name="enactor.automation.ComponentId">
+                    <core:interfaceName>java.lang.String</core:interfaceName>
+                </core:param>
+                <core:param value="ENTER" name="enactor.automation.KeySequence">
+                    <core:interfaceName>com.enactor.core.automation.component.IWindowAccessor</core:interfaceName>
+                </core:param>
+                <core:metaData>
+                    <core:inputs>
+                        <core:input required="true" name="enactor.automation.KeySequence">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.ActiveWindow">
+                            <core:interfaceName>com.enactor.core.automation.component.IWindowAccessor</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.ComponentId">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                    </core:inputs>
+                    <core:outcomes>
+                        <core:outcome name="Success"/>
+                    </core:outcomes>
+                </core:metaData>
+            </tools:action>
+        </tools:entry>
+        <tools:entry id="CLICK_BUTTON_1" name="Click Button 1">
+            <tools:baseType>ACTION</tools:baseType>
+            <tools:figureIcon>NONE</tools:figureIcon>
+            <tools:figureIconName></tools:figureIconName>
+            <tools:paletteIconName>Action.gif</tools:paletteIconName>
+            <tools:width>0</tools:width>
+            <tools:action>
+                <core:defaultNextStateID></core:defaultNextStateID>
+                <core:actionID>Click OK</core:actionID>
+                <core:name>ClickComponentAction</core:name>
+                <core:className>com.enactor.core.automation.actions.ClickComponentAction</core:className>
+                <core:uiHints>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.style</key>
+                        <value>2047</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.xloc</key>
+                        <value>962</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.yloc</key>
+                        <value>353</value>
+                    </entry>
+                </core:uiHints>
+                <core:param value="Button1" name="enactor.automation.ComponentId">
+                    <core:interfaceName>java.lang.String</core:interfaceName>
+                </core:param>
+                <core:metaData>
+                    <core:inputs>
+                        <core:input required="true" name="enactor.automation.ActiveWindow">
+                            <core:interfaceName>com.enactor.core.automation.component.IWindowAccessor</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.ComponentId">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                    </core:inputs>
+                    <core:outcomes>
+                        <core:outcome name="Success"/>
+                    </core:outcomes>
+                </core:metaData>
+            </tools:action>
+        </tools:entry>
+        <tools:entry id="CLICK_BUTTON_2" name="Click Button 2">
+            <tools:baseType>ACTION</tools:baseType>
+            <tools:figureIcon>NONE</tools:figureIcon>
+            <tools:figureIconName></tools:figureIconName>
+            <tools:paletteIconName>Action.gif</tools:paletteIconName>
+            <tools:width>0</tools:width>
+            <tools:action>
+                <core:defaultNextStateID></core:defaultNextStateID>
+                <core:actionID>Click OK</core:actionID>
+                <core:name>ClickComponentAction</core:name>
+                <core:className>com.enactor.core.automation.actions.ClickComponentAction</core:className>
+                <core:uiHints>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.style</key>
+                        <value>2047</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.xloc</key>
+                        <value>962</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.yloc</key>
+                        <value>353</value>
+                    </entry>
+                </core:uiHints>
+                <core:param value="Button1" name="enactor.automation.ComponentId">
+                    <core:interfaceName>java.lang.String</core:interfaceName>
+                </core:param>
+                <core:metaData>
+                    <core:inputs>
+                        <core:input required="true" name="enactor.automation.ActiveWindow">
+                            <core:interfaceName>com.enactor.core.automation.component.IWindowAccessor</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.ComponentId">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                    </core:inputs>
+                    <core:outcomes>
+                        <core:outcome name="Success"/>
+                    </core:outcomes>
+                </core:metaData>
+            </tools:action>
+        </tools:entry>
+        <tools:entry id="WAIT_FOR_TENDER" name="Wait for Tender">
+            <tools:baseType>ACTION</tools:baseType>
+            <tools:figureIcon>NONE</tools:figureIcon>
+            <tools:figureIconName></tools:figureIconName>
+            <tools:paletteIconName>Action.gif</tools:paletteIconName>
+            <tools:width>0</tools:width>
+            <tools:action>
+                <core:defaultNextStateID></core:defaultNextStateID>
+                <core:actionID>Wait For Tender</core:actionID>
+                <core:name>WaitForWindowAction</core:name>
+                <core:className>com.enactor.core.automation.actions.WaitForWindowAction</core:className>
+                <core:uiHints>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.style</key>
+                        <value>2047</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.xloc</key>
+                        <value>245</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.yloc</key>
+                        <value>355</value>
+                    </entry>
+                </core:uiHints>
+                <core:param value="Point-of-Sale Application:Point-of-Sale Application:Select Tender  Pos/Tender/Tender  SelectTender  Pos/Tender/SelectTender" name="enactor.automation.WindowId">
+                    <core:interfaceName>java.lang.String</core:interfaceName>
+                </core:param>
+                <core:metaData>
+                    <core:inputs>
+                        <core:input required="true" name="enactor.automation.AUTLauncher">
+                            <core:interfaceName>com.enactor.core.automation.AUT.IAUTLauncher</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.WindowId">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                    </core:inputs>
+                    <core:outputs>
+                        <core:output required="true" name="enactor.automation.ActiveWindow">
+                            <core:interfaceName>com.enactor.core.automation.component.IWindowAccessor</core:interfaceName>
+                        </core:output>
+                    </core:outputs>
+                    <core:outcomes>
+                        <core:outcome name="Success"/>
+                    </core:outcomes>
+                </core:metaData>
+            </tools:action>
+        </tools:entry>
+        <tools:entry id="WAIT_FOR_SIGNON" name="Wait for Sign On">
+            <tools:baseType>ACTION</tools:baseType>
+            <tools:figureIcon>NONE</tools:figureIcon>
+            <tools:figureIconName></tools:figureIconName>
+            <tools:paletteIconName>Action.gif</tools:paletteIconName>
+            <tools:width>0</tools:width>
+            <tools:action>
+                <core:defaultNextStateID></core:defaultNextStateID>
+                <core:actionID>Wait For Sign On</core:actionID>
+                <core:name>WaitForWindowAction</core:name>
+                <core:className>com.enactor.core.automation.actions.WaitForWindowAction</core:className>
+                <core:uiHints>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.style</key>
+                        <value>2047</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.xloc</key>
+                        <value>306</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.yloc</key>
+                        <value>300</value>
+                    </entry>
+                </core:uiHints>
+                <core:param value="Point-of-Sale Application:Point-of-Sale Application:Enter User  Pos/SignOn/SignOn  EnterUserState  Standard1024x768/Pos/SignOn/EnterUser" name="enactor.automation.WindowId">
+                    <core:interfaceName>java.lang.String</core:interfaceName>
+                </core:param>
+                <core:metaData>
+                    <core:inputs>
+                        <core:input required="true" name="enactor.automation.AUTLauncher">
+                            <core:interfaceName>com.enactor.core.automation.AUT.IAUTLauncher</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.WindowId">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                    </core:inputs>
+                    <core:outputs>
+                        <core:output required="true" name="enactor.automation.ActiveWindow">
+                            <core:interfaceName>com.enactor.core.automation.component.IWindowAccessor</core:interfaceName>
+                        </core:output>
+                    </core:outputs>
+                    <core:outcomes>
+                        <core:outcome name="Success"/>
+                    </core:outcomes>
+                </core:metaData>
+            </tools:action>
+        </tools:entry>
+        <tools:entry id="WAIT_FOR_SALE" name="Wait for Sale">
+            <tools:baseType>ACTION</tools:baseType>
+            <tools:figureIcon>NONE</tools:figureIcon>
+            <tools:figureIconName></tools:figureIconName>
+            <tools:paletteIconName>Action.gif</tools:paletteIconName>
+            <tools:width>0</tools:width>
+            <tools:action>
+                <core:defaultNextStateID></core:defaultNextStateID>
+                <core:actionID>Wait For Sale Prompt</core:actionID>
+                <core:name>WaitForWindowAction</core:name>
+                <core:className>com.enactor.core.automation.actions.WaitForWindowAction</core:className>
+                <core:uiHints>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.style</key>
+                        <value>2047</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.xloc</key>
+                        <value>243</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.yloc</key>
+                        <value>344</value>
+                    </entry>
+                </core:uiHints>
+                <core:param value="Point-of-Sale Application:Point-of-Sale Application:Sale  Pos/Sale/Sale  SignedOnState  Pos/Sale/Sale" name="enactor.automation.WindowId">
+                    <core:interfaceName>java.lang.String</core:interfaceName>
+                </core:param>
+                <core:metaData>
+                    <core:inputs>
+                        <core:input required="true" name="enactor.automation.AUTLauncher">
+                            <core:interfaceName>com.enactor.core.automation.AUT.IAUTLauncher</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.WindowId">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                    </core:inputs>
+                    <core:outputs>
+                        <core:output required="true" name="enactor.automation.ActiveWindow">
+                            <core:interfaceName>com.enactor.core.automation.component.IWindowAccessor</core:interfaceName>
+                        </core:output>
+                    </core:outputs>
+                    <core:outcomes>
+                        <core:outcome name="Success"/>
+                    </core:outcomes>
+                </core:metaData>
+            </tools:action>
+        </tools:entry>
+    </tools:group>
+    <tools:group name="Automation Common">
+        <tools:entry id="CLICK_COMPONENT" name="Click Component">
+            <tools:baseType>ACTION</tools:baseType>
+            <tools:figureIcon>NONE</tools:figureIcon>
+            <tools:figureIconName></tools:figureIconName>
+            <tools:paletteIconName>Action.gif</tools:paletteIconName>
+            <tools:width>0</tools:width>
+            <tools:action>
+                <core:defaultNextStateID></core:defaultNextStateID>
+                <core:actionID>Click OK</core:actionID>
+                <core:name>ClickComponentAction</core:name>
+                <core:className>com.enactor.core.automation.actions.ClickComponentAction</core:className>
+                <core:uiHints>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.style</key>
+                        <value>2047</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.xloc</key>
+                        <value>962</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.yloc</key>
+                        <value>353</value>
+                    </entry>
+                </core:uiHints>
+                <core:param value="Button1" name="enactor.automation.ComponentId">
+                    <core:interfaceName>java.lang.String</core:interfaceName>
+                </core:param>
+                <core:metaData>
+                    <core:inputs>
+                        <core:input required="true" name="enactor.automation.ActiveWindow">
+                            <core:interfaceName>com.enactor.core.automation.component.IWindowAccessor</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.ComponentId">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                    </core:inputs>
+                    <core:outcomes>
+                        <core:outcome name="Success"/>
+                    </core:outcomes>
+                </core:metaData>
+            </tools:action>
+        </tools:entry>
+        <tools:entry id="WAIT_FOR_WINDOW" name="Wait for Window">
+            <tools:baseType>ACTION</tools:baseType>
+            <tools:figureIcon>NONE</tools:figureIcon>
+            <tools:figureIconName></tools:figureIconName>
+            <tools:paletteIconName>Action.gif</tools:paletteIconName>
+            <tools:width>0</tools:width>
+            <tools:action>
+                <core:defaultNextStateID></core:defaultNextStateID>
+                <core:actionID>Wait For Tender</core:actionID>
+                <core:name>WaitForWindowAction</core:name>
+                <core:className>com.enactor.core.automation.actions.WaitForWindowAction</core:className>
+                <core:uiHints>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.style</key>
+                        <value>2047</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.xloc</key>
+                        <value>245</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.yloc</key>
+                        <value>355</value>
+                    </entry>
+                </core:uiHints>
+                <core:param value="Point-of-Sale Application:Point-of-Sale Application:Select Tender  Pos/Tender/Tender  SelectTender  Pos/Tender/SelectTender" name="enactor.automation.WindowId">
+                    <core:interfaceName>java.lang.String</core:interfaceName>
+                </core:param>
+                <core:metaData>
+                    <core:inputs>
+                        <core:input required="true" name="enactor.automation.AUTLauncher">
+                            <core:interfaceName>com.enactor.core.automation.AUT.IAUTLauncher</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.WindowId">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                    </core:inputs>
+                    <core:outputs>
+                        <core:output required="true" name="enactor.automation.ActiveWindow">
+                            <core:interfaceName>com.enactor.core.automation.component.IWindowAccessor</core:interfaceName>
+                        </core:output>
+                    </core:outputs>
+                    <core:outcomes>
+                        <core:outcome name="Success"/>
+                    </core:outcomes>
+                </core:metaData>
+            </tools:action>
+        </tools:entry>
+    </tools:group>
+    <tools:group name="Automation Assertion">
+        <tools:entry id="ASSERT_BALANCE" name="Assert Balance">
+            <tools:baseType>ACTION</tools:baseType>
+            <tools:figureIcon>NONE</tools:figureIcon>
+            <tools:figureIconName></tools:figureIconName>
+            <tools:paletteIconName>Action.gif</tools:paletteIconName>
+            <tools:width>0</tools:width>
+            <tools:action>
+                <core:defaultNextStateID></core:defaultNextStateID>
+                <core:actionID>Assert Balance</core:actionID>
+                <core:name>ClickComponentAction</core:name>
+                <core:className>com.enactor.core.automation.actions.AssertComponentPropertyAction</core:className>
+                <core:uiHints>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.style</key>
+                        <value>2047</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.xloc</key>
+                        <value>1760</value>
+                    </entry>
+                    <entry>
+                        <key>com.enactor.tools.editor.process.yloc</key>
+                        <value>294</value>
+                    </entry>
+                </core:uiHints>
+                <core:param value="Receipt" name="enactor.automation.ComponentId">
+                    <core:interfaceName>java.lang.String</core:interfaceName>
+                </core:param>
+                <core:param value="569" name="enactor.automation.ExpectedValue">
+                    <core:interfaceName>java.lang.String</core:interfaceName>
+                </core:param>
+                <core:param value="footer.transaction.basket.balance" name="enactor.automation.PropertyName">
+                    <core:interfaceName>java.lang.String</core:interfaceName>
+                </core:param>
+                <core:metaData>
+                    <core:inputs>
+                        <core:input required="true" name="enactor.automation.ActiveWindow">
+                            <core:interfaceName>com.enactor.core.automation.component.IWindowAccessor</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.ComponentId">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.ExpectedValue">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                        <core:input required="true" name="enactor.automation.PropertyName">
+                            <core:interfaceName>java.lang.String</core:interfaceName>
+                        </core:input>
+                    </core:inputs>
+                    <core:outcomes>
+                        <core:outcome name="True"/>
+                        <core:outcome name="False"/>
+                    </core:outcomes>
+                </core:metaData>
+            </tools:action>
+        </tools:entry>
+    </tools:group>
+</tools:typeLibrary>

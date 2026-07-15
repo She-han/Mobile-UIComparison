@@ -1,0 +1,21 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Pos test">
+	<parameter name="showProgress" value="true" />
+	<listeners>
+		<listener class-name="com.enactor.core.automation.testng.PosTestExecutionListener" />
+	</listeners>
+	<test name="Inventory Function Automation" junit="false">
+		<parameter name="featurePaths" value="test/feature/retail/em" />
+		<parameter name="gluePaths" value="com.enactor.web.stepDefinitions,com.enactor.retail.pos.stepDefinitions" />
+		<classes>
+			<class name="com.enactor.core.automation.cucumber.RunCucumberTests" />
+		</classes>
+	</test>
+	<test name="feature.sale" junit="false">
+		<parameter name="featurePaths" value="test/feature/retail/pos" />
+		<parameter name="gluePaths" value="com.enactor.retail.pos.stepDefinitions" />
+		<classes>
+			<class name="com.enactor.core.automation.cucumber.RunCucumberTests" />
+		</classes>
+	</test>
+</suite>

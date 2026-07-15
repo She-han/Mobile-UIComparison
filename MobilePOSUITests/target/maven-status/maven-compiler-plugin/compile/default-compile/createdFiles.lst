@@ -5,8 +5,10 @@ com\enactor\pos\mobile\web\ios\IOSWebElementWrapper.class
 com\enactor\pos\mobile\visual\StepScreenshotCapturer.class
 com\enactor\pos\mobile\visual\VisualRegressionConfig$Holder.class
 com\enactor\pos\mobile\visual\VisualRegressionConfig.class
+com\enactor\pos\mobile\visual\JsonUtil.class
 com\enactor\pos\mobile\IMobileAUTController.class
 com\enactor\pos\mobile\MobileThinClinetTestController.class
+com\enactor\pos\mobile\visual\VisualComparisonRunner$StateComparison.class
 com\enactor\pos\mobile\web\ios\IOSLogicalDeviceStepProvider.class
 com\enactor\pos\mobile\web\android\AndroidLogicalDeviceStepProvider$2.class
 com\enactor\pos\mobile\web\MobileWebPosStepProvider.class
@@ -29,6 +31,8 @@ com\enactor\pos\mobile\web\android\AndroidLogicalDeviceStepProvider$3.class
 com\enactor\pos\mobile\utils\IOSPosTestUtils.class
 com\enactor\pos\mobile\web\ios\IOSWebPosStepsProvider.class
 com\enactor\pos\mobile\visual\VisualRegressionConfig$1.class
+com\enactor\pos\mobile\visual\DinoComparisonResult.class
+com\enactor\pos\mobile\visual\VisualComparisonRunner$Status.class
 com\enactor\pos\mobile\web\ios\IOSThickReactController$AppState.class
 com\enactor\pos\mobile\capabilities\AndroidMobileCapabilityType.class
 com\enactor\pos\mobile\web\android\AndroidWebPosStepsProvider.class
@@ -37,6 +41,7 @@ com\enactor\pos\mobile\web\android\AndroidWebDriver.class
 com\enactor\pos\mobile\capabilities\IOSMobileCapabilityType.class
 com\enactor\pos\mobile\capabilities\ThickMobileCapabilityType.class
 com\enactor\pos\mobile\web\android\AndroidLogicalDeviceStepProvider$1.class
+com\enactor\pos\mobile\visual\CropRegion.class
 com\enactor\pos\mobile\web\ios\IOSThinClientReactController$1.class
 com\enactor\pos\mobile\web\MobileThinClientWebPosStepsProvider.class
 com\enactor\pos\mobile\iOS\IOSMobileThinClientTestController$1.class
@@ -46,7 +51,9 @@ com\enactor\pos\mobile\web\android\AndroidWebElementWrapper.class
 com\enactor\pos\mobile\iOS\IOSMobileThinClientTestController.class
 com\enactor\pos\mobile\web\WebDriverUtils.class
 com\enactor\pos\mobile\visual\VisualRegressionDriverRegistry.class
+com\enactor\pos\mobile\visual\DinoServerClient.class
 com\enactor\pos\mobile\web\IAUTMobileWebController.class
 com\enactor\pos\mobile\web\MobileLogicalDeviceStepProvider.class
+com\enactor\pos\mobile\visual\VisualComparisonRunner.class
 com\enactor\pos\mobile\web\ios\IOSThickReactController.class
 com\enactor\pos\mobile\web\WebElementWrapper.class

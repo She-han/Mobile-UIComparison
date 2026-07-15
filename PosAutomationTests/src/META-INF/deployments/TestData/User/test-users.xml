@@ -1,0 +1,65 @@
+<retail:user>
+	<retail:dateTimeActivated>2014-05-12T09:31:15+01:00</retail:dateTimeActivated>
+	<retail:disallowMultiLocationSignOn>false</retail:disallowMultiLocationSignOn>
+	<retail:cardSignOnOnly>false</retail:cardSignOnOnly>
+	<retail:skipPasswordIfCard>false</retail:skipPasswordIfCard>
+	<retail:displayName>Valid User</retail:displayName>
+	<retail:employeeId />
+	<retail:inactivityDelay>0</retail:inactivityDelay>
+	<retail:localeId variant="" country="GB">en</retail:localeId>
+	<retail:locationId>0001</retail:locationId>
+	<retail:password>mOqfre5XIoLzrfXxVyY7fMgSGL+cU/lBgpwfD+Cv2Ss=uoHxMSebIO0=</retail:password>
+	<retail:passwordExpiryTime>0</retail:passwordExpiryTime>
+	<retail:passwordLastChanged>2014-05-12T09:32:57.928+01:00</retail:passwordLastChanged>
+	<retail:forceChangePassword>false</retail:forceChangePassword>
+	<retail:strongPassword>false</retail:strongPassword>
+	<retail:forceAlphaNumericPassword>false</retail:forceAlphaNumericPassword>
+	<retail:forceMixedCasePassword>false</retail:forceMixedCasePassword>
+	<retail:preventPasswordReUse>false</retail:preventPasswordReUse>
+	<retail:minimumPasswordLength>1</retail:minimumPasswordLength>
+	<retail:roleId>
+		<retail:roleId>SALESASSIST_UK</retail:roleId>
+		<retail:regionId groupHierarchyId="All" groupTypeId="region">UK</retail:regionId>
+	</retail:roleId>
+	<retail:shortId />
+	<retail:trainingMode>false</retail:trainingMode>
+	<retail:address>
+		<retail:countryCodeId />
+		<retail:typeId />
+		<retail:isTemplate>false</retail:isTemplate>
+	</retail:address>
+	<retail:userId>000101</retail:userId>
+	<retail:userName>
+		<retail:surname>User</retail:surname>
+		<retail:forename>Valid</retail:forename>
+		<retail:title>Mr</retail:title>
+	</retail:userName>
+	<retail:timePeriod>
+		<core:dayOfWeek>1</core:dayOfWeek>
+	</retail:timePeriod>
+	<retail:timePeriod>
+		<core:dayOfWeek>2</core:dayOfWeek>
+	</retail:timePeriod>
+	<retail:timePeriod>
+		<core:dayOfWeek>3</core:dayOfWeek>
+	</retail:timePeriod>
+	<retail:timePeriod>
+		<core:dayOfWeek>4</core:dayOfWeek>
+	</retail:timePeriod>
+	<retail:timePeriod>
+		<core:dayOfWeek>5</core:dayOfWeek>
+	</retail:timePeriod>
+	<retail:timePeriod>
+		<core:dayOfWeek>6</core:dayOfWeek>
+	</retail:timePeriod>
+	<retail:timePeriod>
+		<core:dayOfWeek>7</core:dayOfWeek>
+	</retail:timePeriod>
+	<retail:preferredAuthenticationMethod />
+	<retail:singleSignOnUserId />
+	<retail:singleSignOnCommonName />
+	<retail:isTemplate>false</retail:isTemplate>
+	<retail:emailAccountName />
+	<retail:emailAddress />
+	<retail:emailPassword />
+</retail:user>
