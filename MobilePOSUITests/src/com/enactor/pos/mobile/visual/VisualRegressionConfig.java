@@ -32,11 +32,22 @@ public final class VisualRegressionConfig {
 
 	private static final String CONFIG_FILE_NAME = "automation-test-config.properties";
 	private static final String DEFAULT_OUTPUT_DIR = "build/visual_outputs/actual";
+	private static final String DEFAULT_BASELINE_DIR = "build/visual_outputs/baseline";
+	private static final String DEFAULT_REPORT_DIR = "build/reports/visual-regression";
+	private static final String DEFAULT_DINO_URL = "http://localhost:8000/compare";
+	private static final double DEFAULT_SIMILARITY_THRESHOLD = 0.95d;
+	private static final double DEFAULT_FIELD_SIMILARITY_THRESHOLD = 0.80d;
 
 	private static final String KEY_ENABLED = "VisualRegression.Enabled";
 	private static final String KEY_OUTPUT_DIR = "VisualRegression.OutputDir";
 	private static final String KEY_CROP_FIELDS = "VisualRegression.CropFields";
 	private static final String KEY_CROP_FIELD_PREFIX = "VisualRegression.CropField.";
+	private static final String KEY_BASELINE_DIR = "VisualRegression.BaselineDir";
+	private static final String KEY_REPORT_DIR = "VisualRegression.ReportDir";
+	private static final String KEY_DINO_URL = "VisualRegression.DinoServerUrl";
+	private static final String KEY_SIMILARITY_THRESHOLD = "VisualRegression.SimilarityThreshold";
+	private static final String KEY_FIELD_SIMILARITY_THRESHOLD = "VisualRegression.FieldSimilarityThreshold";
+	private static final String KEY_FIELD_THRESHOLD_PREFIX = "VisualRegression.FieldThreshold.";
 
 	/** Eagerly-initialised, thread-safe singleton (holder idiom). */
 	private static final class Holder {
@@ -46,12 +57,25 @@ public final class VisualRegressionConfig {
 	private final boolean enabled;
 	private final String outputDir;
 	private final Map<String, String> cropFields;
+	private final String baselineDir;
+	private final String reportDir;
+	private final String dinoServerUrl;
+	private final double similarityThreshold;
+	private final double fieldSimilarityThreshold;
+	private final Map<String, Double> fieldThresholds;
 
 	private VisualRegressionConfig() {
 		Properties props = load();
 		this.enabled = Boolean.parseBoolean(props.getProperty(KEY_ENABLED, "true").trim());
 		this.outputDir = trimmedOrDefault(props.getProperty(KEY_OUTPUT_DIR), DEFAULT_OUTPUT_DIR);
 		this.cropFields = Collections.unmodifiableMap(readCropFields(props));
+		this.baselineDir = trimmedOrDefault(props.getProperty(KEY_BASELINE_DIR), DEFAULT_BASELINE_DIR);
+		this.reportDir = trimmedOrDefault(props.getProperty(KEY_REPORT_DIR), DEFAULT_REPORT_DIR);
+		this.dinoServerUrl = trimmedOrDefault(props.getProperty(KEY_DINO_URL), DEFAULT_DINO_URL);
+		this.similarityThreshold = parseDouble(props.getProperty(KEY_SIMILARITY_THRESHOLD), DEFAULT_SIMILARITY_THRESHOLD);
+		this.fieldSimilarityThreshold = parseDouble(props.getProperty(KEY_FIELD_SIMILARITY_THRESHOLD),
+				DEFAULT_FIELD_SIMILARITY_THRESHOLD);
+		this.fieldThresholds = Collections.unmodifiableMap(readFieldThresholds(props));
 	}
 
 	/**
@@ -80,6 +104,72 @@ public final class VisualRegressionConfig {
 	 */
 	public Map<String, String> getCropFields() {
 		return cropFields;
+	}
+
+	/**
+	 * @return root directory holding the approved baseline images (same per-scenario layout as the
+	 *         actual output). Default {@code build/visual_outputs/baseline}.
+	 */
+	public String getBaselineDir() {
+		return baselineDir;
+	}
+
+	/**
+	 * @return directory where the comparison run writes its HTML report and rendered diff images.
+	 *         Default {@code build/reports/visual-regression}.
+	 */
+	public String getReportDir() {
+		return reportDir;
+	}
+
+	/**
+	 * @return full URL of the DINOv2 comparison endpoint. Default {@code http://localhost:8000/compare}.
+	 */
+	public String getDinoServerUrl() {
+		return dinoServerUrl;
+	}
+
+	/**
+	 * @return minimum {@code global_similarity} (0..1) for a state to count as a visual pass.
+	 */
+	public double getSimilarityThreshold() {
+		return similarityThreshold;
+	}
+
+	/**
+	 * Resolves the pass threshold for a single tracked field, honouring a per-field override
+	 * ({@code VisualRegression.FieldThreshold.<name>}) and otherwise the shared field default.
+	 *
+	 * @param fieldName the logical field name
+	 * @return the similarity threshold (0..1) for that field
+	 */
+	public double getFieldThreshold(String fieldName) {
+		Double override = fieldThresholds.get(fieldName);
+		return override != null ? override : fieldSimilarityThreshold;
+	}
+
+	private static Map<String, Double> readFieldThresholds(Properties props) {
+		Map<String, Double> thresholds = new LinkedHashMap<>();
+		for (String key : props.stringPropertyNames()) {
+			if (key.startsWith(KEY_FIELD_THRESHOLD_PREFIX)) {
+				String name = key.substring(KEY_FIELD_THRESHOLD_PREFIX.length()).trim();
+				if (!name.isEmpty()) {
+					thresholds.put(name, parseDouble(props.getProperty(key), DEFAULT_FIELD_SIMILARITY_THRESHOLD));
+				}
+			}
+		}
+		return thresholds;
+	}
+
+	private static double parseDouble(String value, double fallback) {
+		if (value == null || value.trim().isEmpty()) {
+			return fallback;
+		}
+		try {
+			return Double.parseDouble(value.trim());
+		} catch (NumberFormatException e) {
+			return fallback;
+		}
 	}
 
 	private static Properties load() {

@@ -44,7 +44,7 @@
       <![CDATA[Entered text '500100' into element '[[io.appium.java_client.android.AndroidDriver, Capabilities: {androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, automationName=UiAutomator2, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, databaseEnabled=false, desired={platformName=android, androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, ensureWebviewsHavePages=true, nativeWebTap=false, webviewConnectTimeout=900000, automationName=UiAutomator2, fullReset=false, newCommandTimeout=0, noReset=true, platformVersion=15, udid=37201FDJH0040J}, deviceApiLevel=36, deviceManufacturer=Google, deviceModel=Pixel 8, deviceName=37201FDJH0040J, deviceScreenDensity=420, deviceScreenSize=1080x2400, deviceUDID=37201FDJH0040J, ensureWebviewsHavePages=true, fullReset=false, javascriptEnabled=true, locationContextEnabled=false, nativeWebTap=false, networkConnectionEnabled=true, newCommandTimeout=0, noReset=true, pixelRatio=2.625, platform=LINUX, platformName=Android, platformVersion=16, statBarHeight=132, takesScreenshot=true, udid=37201FDJH0040J, viewportRect={left=0, top=132, width=1080, height=2268}, warnings={}, webStorageEnabled=false, webviewConnectTimeout=900000}] -> xpath: //input[@test-component-id='InputBox']|//textarea[@test-component-id='InputBox']]<br/>]]>
     </line>
     <line>
-      <![CDATA[Current contexts: [NATIVE_APP, WEBVIEW_stetho_com.google.android.apps.messaging, WEBVIEW_com.enactor.pos] and waiting for target context: NATIVE_APP<br/>]]>
+      <![CDATA[Current contexts: [NATIVE_APP, WEBVIEW_com.enactor.pos, WEBVIEW_stetho_com.google.android.apps.messaging] and waiting for target context: NATIVE_APP<br/>]]>
     </line>
     <line>
       <![CDATA[Target context found: NATIVE_APP<br/>]]>
@@ -56,7 +56,7 @@
       <![CDATA[Target context found: WEBVIEW_com.enactor.pos<br/>]]>
     </line>
   </reporter-output>
-  <suite started-at="2026-07-15T06:51:47 BST" name="Pos test" finished-at="2026-07-15T06:53:28 BST" duration-ms="101055">
+  <suite started-at="2026-07-15T07:36:21 BST" name="Pos test" finished-at="2026-07-15T07:38:05 BST" duration-ms="104292">
     <groups>
       <group name="com.enactor.core.test.categories.Nightly">
         <method signature="RunCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.enactor.core.automation.cucumber.RunCucumberTests@31190526]" name="runScenario" class="com.enactor.core.automation.cucumber.RunCucumberTests"/>
@@ -65,31 +65,31 @@
         <method signature="RunCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.enactor.core.automation.cucumber.RunCucumberTests@31190526]" name="runScenario" class="com.enactor.core.automation.cucumber.RunCucumberTests"/>
       </group> <!-- com.enactor.core.test.categories.UiTest -->
     </groups>
-    <test started-at="2026-07-15T06:51:47 BST" name="feature.sale" finished-at="2026-07-15T06:53:28 BST" duration-ms="101055">
+    <test started-at="2026-07-15T07:36:21 BST" name="feature.sale" finished-at="2026-07-15T07:38:05 BST" duration-ms="104292">
       <class name="com.enactor.core.automation.cucumber.RunCucumberTests">
-        <test-method is-config="true" signature="beforeTest(org.testng.ITestContext)[pri:0, instance:com.enactor.core.automation.cucumber.RunCucumberTests@31190526]" started-at="2026-07-15T06:51:47 BST" name="beforeTest" finished-at="2026-07-15T06:51:47 BST" duration-ms="11" status="PASS">
+        <test-method is-config="true" signature="beforeTest(org.testng.ITestContext)[pri:0, instance:com.enactor.core.automation.cucumber.RunCucumberTests@31190526]" started-at="2026-07-15T07:36:21 BST" name="beforeTest" finished-at="2026-07-15T07:36:21 BST" duration-ms="15" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[org.testng.TestRunner@5600a5da]]>
+                <![CDATA[org.testng.TestRunner@1653b84e]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeTest -->
-        <test-method is-config="true" signature="setUpClass(org.testng.ITestContext)[pri:0, instance:com.enactor.core.automation.cucumber.RunCucumberTests@31190526]" started-at="2026-07-15T06:51:47 BST" name="setUpClass" finished-at="2026-07-15T06:51:49 BST" duration-ms="2257" status="PASS">
+        <test-method is-config="true" signature="setUpClass(org.testng.ITestContext)[pri:0, instance:com.enactor.core.automation.cucumber.RunCucumberTests@31190526]" started-at="2026-07-15T07:36:21 BST" name="setUpClass" finished-at="2026-07-15T07:36:24 BST" duration-ms="3021" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[org.testng.TestRunner@5600a5da]]>
+                <![CDATA[org.testng.TestRunner@1653b84e]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUpClass -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.enactor.core.automation.cucumber.RunCucumberTests@31190526]" started-at="2026-07-15T06:51:49 BST" name="runScenario" description="Run Cucumber Features." data-provider="scenarios" finished-at="2026-07-15T06:53:28 BST" duration-ms="98739" status="FAIL">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.enactor.core.automation.cucumber.RunCucumberTests@31190526]" started-at="2026-07-15T07:36:24 BST" name="runScenario" description="Run Cucumber Features." data-provider="scenarios" finished-at="2026-07-15T07:38:05 BST" duration-ms="101196" status="FAIL">
           <params>
             <param index="0">
               <value>
@@ -162,7 +162,7 @@ at ✽.user presses "ENT" button(file:///D:/RDF_POS_Test/MobilePOSAutomationTest
               <![CDATA[Entered text '500100' into element '[[io.appium.java_client.android.AndroidDriver, Capabilities: {androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, automationName=UiAutomator2, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, databaseEnabled=false, desired={platformName=android, androidDeviceReadyTimeout=60, appActivity=com.enactor.pos.MainActivity, appPackage=com.enactor.pos, autoGrantPermissions=true, autoLaunch=false, chromedriverExecutable=D:\Data\chromedriver-win64\chromedriver.exe, chromedriverUseSystemExecutable=false, clearDeviceLogsOnStart=false, ensureWebviewsHavePages=true, nativeWebTap=false, webviewConnectTimeout=900000, automationName=UiAutomator2, fullReset=false, newCommandTimeout=0, noReset=true, platformVersion=15, udid=37201FDJH0040J}, deviceApiLevel=36, deviceManufacturer=Google, deviceModel=Pixel 8, deviceName=37201FDJH0040J, deviceScreenDensity=420, deviceScreenSize=1080x2400, deviceUDID=37201FDJH0040J, ensureWebviewsHavePages=true, fullReset=false, javascriptEnabled=true, locationContextEnabled=false, nativeWebTap=false, networkConnectionEnabled=true, newCommandTimeout=0, noReset=true, pixelRatio=2.625, platform=LINUX, platformName=Android, platformVersion=16, statBarHeight=132, takesScreenshot=true, udid=37201FDJH0040J, viewportRect={left=0, top=132, width=1080, height=2268}, warnings={}, webStorageEnabled=false, webviewConnectTimeout=900000}] -> xpath: //input[@test-component-id='InputBox']|//textarea[@test-component-id='InputBox']]<br/>]]>
             </line>
             <line>
-              <![CDATA[Current contexts: [NATIVE_APP, WEBVIEW_stetho_com.google.android.apps.messaging, WEBVIEW_com.enactor.pos] and waiting for target context: NATIVE_APP<br/>]]>
+              <![CDATA[Current contexts: [NATIVE_APP, WEBVIEW_com.enactor.pos, WEBVIEW_stetho_com.google.android.apps.messaging] and waiting for target context: NATIVE_APP<br/>]]>
             </line>
             <line>
               <![CDATA[Target context found: NATIVE_APP<br/>]]>
@@ -175,7 +175,7 @@ at ✽.user presses "ENT" button(file:///D:/RDF_POS_Test/MobilePOSAutomationTest
             </line>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method is-config="true" signature="tearDownClass()[pri:0, instance:com.enactor.core.automation.cucumber.RunCucumberTests@31190526]" started-at="2026-07-15T06:53:28 BST" name="tearDownClass" finished-at="2026-07-15T06:53:28 BST" duration-ms="2" status="PASS">
+        <test-method is-config="true" signature="tearDownClass()[pri:0, instance:com.enactor.core.automation.cucumber.RunCucumberTests@31190526]" started-at="2026-07-15T07:38:05 BST" name="tearDownClass" finished-at="2026-07-15T07:38:05 BST" duration-ms="2" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDownClass -->

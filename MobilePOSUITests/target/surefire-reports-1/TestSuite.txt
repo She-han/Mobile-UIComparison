@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: TestSuite
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 101.6 s <<< FAILURE! -- in TestSuite
-com.enactor.core.automation.cucumber.RunCucumberTests.runScenario["Perform a sale transaction and tender with gift voucher with value less than transaction amount and tender balance with cash", "Gift voucher redemption"](1) -- Time elapsed: 98.74 s <<< FAILURE!
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 105.0 s <<< FAILURE! -- in TestSuite
+com.enactor.core.automation.cucumber.RunCucumberTests.runScenario["Perform a sale transaction and tender with gift voucher with value less than transaction amount and tender balance with cash", "Gift voucher redemption"](1) -- Time elapsed: 101.2 s <<< FAILURE!
 java.lang.NumberFormatException: Cannot parse null string
 	at java.base/java.lang.Integer.parseInt(Integer.java:630)
 	at java.base/java.lang.Integer.parseInt(Integer.java:786)
