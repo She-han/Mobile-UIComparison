@@ -1,5 +1,10 @@
 package com.enactor.pos.mobile.visual;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 
 import io.cucumber.plugin.ConcurrentEventListener;
@@ -8,27 +13,29 @@ import io.cucumber.plugin.event.PickleStepTestStep;
 import io.cucumber.plugin.event.Status;
 import io.cucumber.plugin.event.TestCaseFinished;
 import io.cucumber.plugin.event.TestCaseStarted;
+import io.cucumber.plugin.event.TestRunFinished;
 import io.cucumber.plugin.event.TestStep;
 import io.cucumber.plugin.event.TestStepFinished;
 
 /**
  * Cucumber plugin that captures a screenshot of the application under test after <em>every</em>
- * Gherkin step and, at the end of each scenario, records the functional pass/fail marker.
+ * Gherkin step and, when enabled, immediately compares that screenshot against its baseline via the
+ * DINOv2 server — so both capture <em>and</em> comparison happen inline, during the run.
  *
  * <p>The plugin follows the same integration model as the framework's existing
  * {@code CucumberScreenshotEmitter}: it is a {@link ConcurrentEventListener} that subscribes to the
  * Cucumber event bus and therefore requires no changes to step definitions or the test runner. It is
- * activated purely through configuration (see the {@code plugin} option), keeping the existing
- * architecture untouched.</p>
+ * activated purely through configuration (see the {@code plugin} option).</p>
  *
- * <p>Responsibilities are intentionally thin here - the plugin only translates Cucumber lifecycle
- * events into calls on {@link StepScreenshotCapturer}. It reads the live Appium session from
- * {@link VisualRegressionDriverRegistry}, so it stays fully decoupled from the controllers and step
- * providers that own the driver. All per-scenario state is held in {@link ThreadLocal}s so the plugin
- * remains correct if the suite is ever run with parallel scenarios.</p>
+ * <p>Per step it: (1) captures the screenshot via {@link StepScreenshotCapturer}; (2) if
+ * {@link VisualRegressionConfig#isCompareEachStep()} is on and a baseline directory exists, compares
+ * the fresh image against the matching baseline through the shared {@link VisualComparisonService},
+ * accumulating one {@link StateComparison} per step. The running report is (re)written after every
+ * scenario and once more at the end of the run, using the shared {@link VisualReportWriter}.</p>
  *
- * <p>Only real Gherkin steps ({@link PickleStepTestStep}) are captured; Cucumber's own
- * before/after hook steps are ignored.</p>
+ * <p>Only real Gherkin steps ({@link PickleStepTestStep}) are captured; Cucumber's own before/after
+ * hook steps are ignored. All work is fully guarded — a capture or comparison problem is logged but
+ * never affects the functional test outcome.</p>
  *
  * @author Visual Regression Subsystem
  */
@@ -36,6 +43,14 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 
 	private final VisualRegressionConfig config;
 	private final StepScreenshotCapturer capturer;
+
+	/** Lazily created only when inline comparison is enabled and a baseline exists. */
+	private final VisualComparisonService comparisonService;
+	private final VisualReportWriter reportWriter;
+	private final boolean inlineComparisonActive;
+
+	/** Accumulated comparison rows for the whole run (thread-safe for parallel scenarios). */
+	private final List<StateComparison> results = Collections.synchronizedList(new ArrayList<>());
 
 	/** Current scenario name, per executing thread. */
 	private final ThreadLocal<String> currentScenario = new ThreadLocal<>();
@@ -52,6 +67,13 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 	public VisualRegressionScreenshotPlugin(VisualRegressionConfig config, StepScreenshotCapturer capturer) {
 		this.config = config;
 		this.capturer = capturer;
+
+		// Inline comparison is active only when requested AND a baseline set already exists — otherwise
+		// (e.g. the very first run that establishes baselines) we silently capture without comparing.
+		boolean baselineExists = new File(config.getBaselineDir()).isDirectory();
+		this.inlineComparisonActive = config.isEnabled() && config.isCompareEachStep() && baselineExists;
+		this.comparisonService = inlineComparisonActive ? new VisualComparisonService(config) : null;
+		this.reportWriter = inlineComparisonActive ? new VisualReportWriter(config) : null;
 	}
 
 	@Override
@@ -59,6 +81,7 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 		publisher.registerHandlerFor(TestCaseStarted.class, this::onTestCaseStarted);
 		publisher.registerHandlerFor(TestStepFinished.class, this::onTestStepFinished);
 		publisher.registerHandlerFor(TestCaseFinished.class, this::onTestCaseFinished);
+		publisher.registerHandlerFor(TestRunFinished.class, this::onTestRunFinished);
 	}
 
 	private void onTestCaseStarted(TestCaseStarted event) {
@@ -87,7 +110,14 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 
 		PickleStepTestStep pickleStep = (PickleStepTestStep) testStep;
 		String label = buildStepLabel(pickleStep);
-		capturer.capture(driver, currentScenario.get(), index, label);
+
+		// 1) Capture the screenshot for this step.
+		File actualPng = capturer.capture(driver, currentScenario.get(), index, label);
+
+		// 2) Inline comparison against the baseline (guarded, best-effort).
+		if (actualPng != null && inlineComparisonActive) {
+			compareStepAgainstBaseline(actualPng);
+		}
 	}
 
 	private void onTestCaseFinished(TestCaseFinished event) {
@@ -97,9 +127,57 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 			}
 			boolean passed = Status.PASSED.equals(event.getResult().getStatus());
 			capturer.writeScenarioStatus(currentScenario.get(), passed);
+			// Refresh the report after each scenario so partial results survive an interrupted run.
+			flushReport();
 		} finally {
 			currentScenario.remove();
 			stepCounter.remove();
+		}
+	}
+
+	private void onTestRunFinished(TestRunFinished event) {
+		flushReport();
+	}
+
+	/**
+	 * Compares one freshly-captured step image against its baseline and records the result. The baseline
+	 * lives at the same scenario/state path under the configured baseline directory.
+	 */
+	private void compareStepAgainstBaseline(File actualPng) {
+		try {
+			String scenarioFolder = actualPng.getParentFile().getName();
+			String stateFile = actualPng.getName();
+			File baselinePng = new File(new File(config.getBaselineDir(), scenarioFolder), stateFile);
+			File diffRoot = new File(config.getReportDir(), "diffs");
+
+			StateComparison comparison =
+					comparisonService.compareState(scenarioFolder, stateFile, baselinePng, actualPng, diffRoot);
+			results.add(comparison);
+		} catch (Exception e) {
+			// Never let inline comparison disrupt the functional test.
+			System.err.println("[VISUAL COMPARE] Inline comparison failed for '" + actualPng.getName()
+					+ "': " + e.getMessage());
+		}
+	}
+
+	/** (Re)writes the HTML report from everything accumulated so far. Best-effort. */
+	private void flushReport() {
+		if (!inlineComparisonActive) {
+			return;
+		}
+		try {
+			List<StateComparison> snapshot;
+			synchronized (results) {
+				if (results.isEmpty()) {
+					return;
+				}
+				snapshot = new ArrayList<>(results);
+			}
+			File reportDir = new File(config.getReportDir());
+			reportDir.mkdirs();
+			reportWriter.write(new File(reportDir, "Visual-Report.html"), snapshot);
+		} catch (Exception e) {
+			System.err.println("[VISUAL COMPARE] Failed to write inline report: " + e.getMessage());
 		}
 	}
 

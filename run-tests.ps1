@@ -15,7 +15,7 @@
 
 param(
     [string] $Tags        = "@PT-5",
-    [string] $DeviceUUID  = "R58X508H3SY",
+    [string] $DeviceUUID  = "37201FDJH0040J",
     [string] $PlatformVer = "15",
     [string] $AppiumUrl   = "http://127.0.0.1:4723",
     [string] $ChromeDriver = "D:\Data\chromedriver-win64\chromedriver.exe",

@@ -39,6 +39,7 @@ public final class VisualRegressionConfig {
 	private static final double DEFAULT_FIELD_SIMILARITY_THRESHOLD = 0.80d;
 
 	private static final String KEY_ENABLED = "VisualRegression.Enabled";
+	private static final String KEY_COMPARE_EACH_STEP = "VisualRegression.CompareEachStep";
 	private static final String KEY_OUTPUT_DIR = "VisualRegression.OutputDir";
 	private static final String KEY_CROP_FIELDS = "VisualRegression.CropFields";
 	private static final String KEY_CROP_FIELD_PREFIX = "VisualRegression.CropField.";
@@ -55,6 +56,7 @@ public final class VisualRegressionConfig {
 	}
 
 	private final boolean enabled;
+	private final boolean compareEachStep;
 	private final String outputDir;
 	private final Map<String, String> cropFields;
 	private final String baselineDir;
@@ -67,6 +69,7 @@ public final class VisualRegressionConfig {
 	private VisualRegressionConfig() {
 		Properties props = load();
 		this.enabled = Boolean.parseBoolean(props.getProperty(KEY_ENABLED, "true").trim());
+		this.compareEachStep = Boolean.parseBoolean(props.getProperty(KEY_COMPARE_EACH_STEP, "true").trim());
 		this.outputDir = trimmedOrDefault(props.getProperty(KEY_OUTPUT_DIR), DEFAULT_OUTPUT_DIR);
 		this.cropFields = Collections.unmodifiableMap(readCropFields(props));
 		this.baselineDir = trimmedOrDefault(props.getProperty(KEY_BASELINE_DIR), DEFAULT_BASELINE_DIR);
@@ -90,6 +93,15 @@ public final class VisualRegressionConfig {
 	 */
 	public boolean isEnabled() {
 		return enabled;
+	}
+
+	/**
+	 * @return {@code true} if each step's screenshot should be compared against its baseline inline,
+	 *         during the run (the plugin path), rather than only by the post-run batch runner.
+	 *         Default {@code true}. Turn off while establishing baselines (capture-only).
+	 */
+	public boolean isCompareEachStep() {
+		return compareEachStep;
 	}
 
 	/**

@@ -71,10 +71,12 @@ public class StepScreenshotCapturer {
 	 * @param scenarioName the Cucumber scenario (test case) name - becomes the folder name
 	 * @param stepIndex    1-based ordinal of the step within the scenario
 	 * @param stepLabel    human-readable step text used in the file name
+	 * @return the PNG file written for this step, or {@code null} if nothing was captured (no driver
+	 *         or a guarded failure) - lets callers (e.g. inline comparison) act on the fresh image
 	 */
-	public void capture(WebDriver driver, String scenarioName, int stepIndex, String stepLabel) {
+	public File capture(WebDriver driver, String scenarioName, int stepIndex, String stepLabel) {
 		if (driver == null) {
-			return;
+			return null;
 		}
 		try {
 			File scenarioDir = scenarioDirectory(scenarioName);
@@ -93,10 +95,12 @@ public class StepScreenshotCapturer {
 			try (FileOutputStream fos = new FileOutputStream(metaFile)) {
 				metaData.store(fos, "Dynamic Bounding Boxes");
 			}
+			return destFile;
 		} catch (Exception e) {
 			// Never let a visual-capture problem affect the functional test outcome.
 			System.err.println(LOG_PREFIX + "Failed to capture step screenshot for scenario '"
 					+ scenarioName + "' (step " + stepIndex + "): " + e.getMessage());
+			return null;
 		}
 	}
 
