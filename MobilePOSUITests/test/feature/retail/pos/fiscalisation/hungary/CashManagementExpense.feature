@@ -1,0 +1,30 @@
+Feature: Cash Management - Expense
+
+  @PT-1732 @HungaryFiscalExpense @No_Printer @AUTOMATED @Hungary @Fiscalisation @FiscalHungary
+  Scenario: Verify the Fiscal Receipt for Cash Management Expenses on Hungary Fiscal Printer
+		Given "Enter User" page is shown
+		And user enters "${Hungary Fiscal Sales Assistant Username}" into "User Name Text" field
+		When user enters "${Hungary Fiscal Sales Assistant Password}" into "Password Text" field
+		And user presses "ENT" button
+    And "Fiscal Hungary VAT Rates Sync in Progress" page is shown
+    And "Fiscal Hungary VAT Rates Up to Date Prompt" page is shown
+    And user presses "OK" button 
+    And "Transaction Basket" page is shown
+    When user presses "Management" button
+    When user presses "Terminal Cash Management" button and "Terminal Cash Management" page shown
+    And user presses "Terminal Cash Management Screen Expense Button" icon button
+    And "Cash Management Select Reason Prompt" page is shown
+    And user selects "levy" from "Selection List" list
+    And user presses "OK" button
+    And "Terminal Cash Management Select Tender" page is shown
+    And user selects "Cash HU" from "Selection List" list
+    And user enters "100" into "Input Box" field
+    When user presses "OK" button
+    And user presses "Complete" button
+    Then "Await Drawer Closed" page is shown
+    And user presses "Close" button on external "Cash Drawer" window
+    Then "Terminal Cash Management" page is shown
+    When user presses "Terminal Cash Management Screen Back Button" icon button
+    Then "Transaction Basket" page is shown
+    When user presses "SignOff" button
+    And "Enter User" page is shown

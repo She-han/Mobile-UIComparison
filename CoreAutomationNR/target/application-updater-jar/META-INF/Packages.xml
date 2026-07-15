@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<core:packages xmlns:core="http://www.enactor.com/core" xmlns:tools="http://www.enactor.com/tools" xmlns:retail="http://www.enactor.com/retail" xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref" xmlns:ns6="tools" xmlns:ns7="http://maven.apache.org/POM/4.0.0" xmlns:ns8="http://www.w3.org/2005/08/addressing" xmlns:ns9="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns10="http://www.w3.org/2003/05/soap-envelope">
+    <core:package>
+        <core:packageId>ApplicationUpdater</core:packageId>
+        <core:name>Enactor Application Updater</core:name>
+        <core:applicableContexts/>
+        <core:deployedStatus>DEPLOYED</core:deployedStatus>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/StartApplicationUpdater</core:processId>
+            <core:name>Application Updater</core:name>
+            <core:version>1.0</core:version>
+            <core:messageResourceClass>ApplicationUpdater/ApplicationUpdaterMessages</core:messageResourceClass>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/ShutdownPDPServer</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/ShutdownPos</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/ShutdownServicesLauncher</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/ShutdownTomcat</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/RestartPDPServer</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/RestartPos</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/RestartServicesLauncher</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/RestartTomcat</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/LookupUpdate</core:processId>
+            <core:name>Unnamed Process</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/UpdateFiles</core:processId>
+            <core:name>Update Files</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Unix/ShutdownPDPServer</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Unix/ShutdownPos</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Unix/ShutdownServicesLauncher</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Unix/ShutdownTomcat</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Unix/RestartPDPServer</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Unix/RestartPos</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Unix/RestartServicesLauncher</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Unix/RestartTomcat</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/DisableServicesLauncher</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/DeleteServicesLauncher</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/EnableServicesLauncher</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/ShutdownPDPServer</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/ShutdownPos</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/ShutdownServicesLauncher</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/ShutdownTomcat</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/RestartPDPServer</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/RestartPos</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/RestartServicesLauncher</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/RestartTomcat</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/RunPDCUpgrade</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/RunPDCUpgradeRollback</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/UpdateCoreProperties</core:processId>
+            <core:name></core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/InitialiseUpgrade</core:processId>
+            <core:name>Initialise Upgrade</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/LoadInstallerProperties</core:processId>
+            <core:name>Load Installer Properties</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/DisableServicesLauncher</core:processId>
+            <core:name>Disable Services Launcher</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/DeleteServicesLauncher</core:processId>
+            <core:name>Delete Services Launcher</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/EnableServicesLauncher</core:processId>
+            <core:name>Enable Services Launcher</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/ExecuteHookScript</core:processId>
+            <core:name>Execute Hook Script</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/Commands/CheckProcess</core:processId>
+            <core:name>Windows Check Process</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/Commands/DeleteService</core:processId>
+            <core:name>Windows Delete Service</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/Commands/DisableService</core:processId>
+            <core:name>Windows Disable Service</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/Commands/EnableService</core:processId>
+            <core:name>Windows Enable Service</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Commands/KillProcess</core:processId>
+            <core:name>Kill Process</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Linux/Commands/KillProcess</core:processId>
+            <core:name>Linux Kill Process</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/Commands/KillProcess</core:processId>
+            <core:name>Windows Kill Process</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Commands/StartService</core:processId>
+            <core:name>Start Service</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Linux/Commands/StartService</core:processId>
+            <core:name>Linux Start Service</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/Commands/StartService</core:processId>
+            <core:name>Windows Start Service</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Commands/StopService</core:processId>
+            <core:name>Stop Service</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Linux/Commands/StopService</core:processId>
+            <core:name>Linux Stop Service</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/Commands/StopService</core:processId>
+            <core:name>Windows Stop Service</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Commands/RestartMachine</core:processId>
+            <core:name>Restart Machine</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Linux/Commands/RestartMachine</core:processId>
+            <core:name>Linux Restart Machine</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/Commands/RestartMachine</core:processId>
+            <core:name>Windows Restart Machine</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/RunMSIUpgrade</core:processId>
+            <core:name>Run MSI Upgrade</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdaterUpdate</core:processId>
+            <core:name>Application Updater Update</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>RollbackApplicationUpdaterUpdate</core:processId>
+            <core:name>Application Updater Update Rollback</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/RunMSIUpgradeRollback</core:processId>
+            <core:name>Run MSI Upgrade Rollback</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/RunCustomUpgrade</core:processId>
+            <core:name>Run Custom Upgrade</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/RunCustomUpgradeRollback</core:processId>
+            <core:name>Run Custom Upgrade Rollback</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/DeployHookScripts</core:processId>
+            <core:name>Deploy Hook Scripts</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/FindAndReplaceInFile</core:processId>
+            <core:name>Find And Replace In File</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/UpdateEnactorConfig</core:processId>
+            <core:name>Update Enactor Config</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/UpdateEnactorConfigRollback</core:processId>
+            <core:name>Rollback Enactor Config</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/RunPatchUpgrade</core:processId>
+            <core:name>Run Patch Upgrade</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/RunPatchUpgradeRollback</core:processId>
+            <core:name>Run Patch Upgrade Rollback</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/RunUpdateEnactorConfig</core:processId>
+            <core:name>Run Update Enactor Config</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/Windows/RunUpdateEnactorConfigRollback</core:processId>
+            <core:name>Run Update Enactor Config Rollback</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:packageProcess>
+            <core:processId>ApplicationUpdater/RunLinuxPOSUpgrade</core:processId>
+            <core:name>Run Linux POS Upgrade</core:name>
+            <core:version>1.0</core:version>
+        </core:packageProcess>
+        <core:deployment>
+            <core:name>Startup Deployment</core:name>
+            <core:useLoadThread>true</core:useLoadThread>
+            <core:scope>GLOBAL</core:scope>
+            <core:deploymentHandler name="Factory registration handler">
+                <core:delay>0</core:delay>
+                <core:executionOrder>100</core:executionOrder>
+                <core:handlerClassName>com.enactor.core.deployment.common.RegisterFactoriesHandler</core:handlerClassName>
+                <core:retryCount>0</core:retryCount>
+                <core:retryInterval>0</core:retryInterval>
+                <core:abortOnFailure>false</core:abortOnFailure>
+                <core:deploymentMode>MANDATORY</core:deploymentMode>
+            </core:deploymentHandler>
+            <core:deploymentHandler name="Config Entity Uploader">
+                <core:delay>0</core:delay>
+                <core:executionOrder>400</core:executionOrder>
+                <core:handlerClassName>com.enactor.core.deployment.common.ConfigEntityUploader</core:handlerClassName>
+                <core:retryCount>0</core:retryCount>
+                <core:retryInterval>0</core:retryInterval>
+                <core:abortOnFailure>false</core:abortOnFailure>
+                <core:deploymentMode>DATA_FOLDER</core:deploymentMode>
+            </core:deploymentHandler>
+        </core:deployment>
+        <core:packageEntitiesDef defaultMessageBaseName="com.enactor.applicationUpdater.resources.EntityNameMessages" defaultNamespace="http://www.enactor.com/applicationUpdater"/>
+        <core:extensions/>
+        <core:dependencies/>
+        <core:packageExtensionRegistrars/>
+    </core:package>
+</core:packages>

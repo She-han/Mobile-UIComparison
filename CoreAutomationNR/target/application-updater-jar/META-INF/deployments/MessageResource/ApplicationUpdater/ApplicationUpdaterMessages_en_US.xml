@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<core:messageResource xmlns:core="http://www.enactor.com/core" xmlns:retail="http://www.enactor.com/retail" xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref" xmlns:tools="http://www.enactor.com/tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <core:basename>ApplicationUpdater/ApplicationUpdaterMessages</core:basename>
+    <core:localeKey country="US">en</core:localeKey>
+    <core:message key="RUN_MSI_UPGRADE_INITIALISE_FAILED">Failed to initialize the MSI upgrade script</core:message>
+    <core:message key="RUN_CUSTOM_UPGRADE_INITIALISE_FAILED">Failed to initialize the custom upgrade</core:message>
+</core:messageResource>

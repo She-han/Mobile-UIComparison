@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Build-Jdk-Spec: 21
+Implementation-Title: Core - Core AutomationNR
+Implementation-Version: 3.0.9-SNAPSHOT
+Implementation-Vendor: Enactor
+Build-Time: 2026-07-14T05:21:53Z
+Created-By: Maven Integration for Eclipse
+

@@ -1,0 +1,8 @@
+com\enactor\core\automation\api\CommonApitStepsTest$NoConfigCommonApisSteps.class
+com\enactor\core\automation\cucumber\Plugin.class
+com\enactor\core\automation\view\AutViewPrivilegeManagerTest$PrivilegeTestOperation.class
+com\enactor\core\automation\view\AutViewPrivilegeManagerTest$PrivilegeTestOperationType.class
+com\enactor\core\automation\view\AutViewPrivilegeManagerTest.class
+com\enactor\core\automation\api\CommonApitStepsTest$1.class
+com\enactor\core\automation\api\CommonApitStepsTest.class
+com\enactor\core\automation\view\AutViewManagerTest.class

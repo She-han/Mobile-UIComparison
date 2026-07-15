@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<core:messageResource xmlns:core="http://www.enactor.com/core" xmlns:retail="http://www.enactor.com/retail" xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref" xmlns:tools="http://www.enactor.com/tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <core:basename>ApplicationUpdater/ApplicationUpdaterMessages</core:basename>
+    <core:localeKey></core:localeKey>
+    <core:message key="RESOURCE_FRIENDLY_NAME">Application Updater</core:message>
+    <core:message key="EXCEPTION_RUN_MSI_UPGRADE">An exception occurred while executing the MSI upgrade script</core:message>
+    <core:message key="EXCEPTION_RUN_LINUX_POS_UPGRADE">An exception occurred while executing the Linux upgrade script</core:message>
+    <core:message key="PRE_EXECUTE_HOOK_FAILED">The us-pre-execute update hook script returned an error code</core:message>
+    <core:message key="EXCEPTION_APPLYING_UPDATE">An exception occurred while applying the Application Update</core:message>
+    <core:message key="RUN_UPGRADE_PROCESS_FAILED">The update process did not execute successfully</core:message>
+    <core:message key="FIND_UPDATE_FAILED">The update could not be found due to an error</core:message>
+    <core:message key="UPDATE_ALREADY_IN_PROGRESS">The update did not execute because an update is already in progress</core:message>
+    <core:message key="INITIALISATION_FAILURE">The update did not execute because of a problem initialising the Application Updater</core:message>
+    <core:message key="RUN_MSI_UPGRADE_INITIALISE_FAILED">Failed to initialise the MSI upgrade script</core:message>
+    <core:message key="RUN_MSI_UPGRADE_NO_MSI_FILENAME">No MSI filename was defined in the MSI upgrade package</core:message>
+    <core:message key="RUN_MSI_UPGRADE_MSI_ERROR">The MSI returned an error code after execution</core:message>
+    <core:message key="RUN_MSI_UPGRADE_PRE_STOP_SERVICES_HOOK">The rmu-pre-stop-services update hook script returned an error code</core:message>
+    <core:message key="RUN_MSI_UPGRADE_PRE_DELETE_SERVICES_HOOK">The rmu-pre-delete-services update hook script returned an error code</core:message>
+    <core:message key="RUN_MSI_UPGRADE_PRE_KILL_PROCESS_HOOK">The rmu-pre-kill-process update hook script returned an error code</core:message>
+    <core:message key="RUN_MSI_UPGRADE_PRE_INSTALL_BOOTSTRAP_HOOK">The rmu-pre-install-bootstrap update hook script returned an error code</core:message>
+    <core:message key="RUN_MSI_UPGRADE_PRE_EXEC_MSI_HOOK">The rmu-pre-exec-msi update hook script returned an error code</core:message>
+    <core:message key="RUN_CUSTOM_UPGRADE_INITIALISE_FAILED">Failed to initialise the custom upgrade</core:message>
+    <core:message key="RUN_PATCH_UPGRADE_INITIALISE_FAILED">Failed to initialise the patch upgrade</core:message>
+    <core:message key="RUN_LINUX_POS_UPGRADE_INITIALISE_FAILED">Failed to initialise the Linux POS upgrade</core:message>
+    <core:message key="RUN_LINUX_POS_UPGRADE_NO_UPDATE_FILENAME">No upgrade filename was defined in the Linux POS update package</core:message>
+    <core:message key="RUN_LINUX_POS_UPGRADE_NO_TARGET_DIR">No target directory was defined in the Linux POS update package</core:message>
+    <core:message key="RUN_LINUX_POS_UPGRADE_NO_INSTALL_SCRIPT">No install script was defined in the Linux POS update package</core:message>
+    <core:message key="RUN_LINUX_POS_UPGRADE_UNEXPECTED_CONTENT">The Linux POS upgrade package's upgrade file contained unexpected content</core:message>
+    <core:message key="RUN_LINUX_POS_UPGRADE_REMOVE_EXISTING_DIRS_FAILED">Removal of existing directories failed during the Linux POS update</core:message>
+    <core:message key="EXCEPTION_RUN_CUSTOM_UPGRADE">An exception occurred while executing the custom upgrade</core:message>
+</core:messageResource>
