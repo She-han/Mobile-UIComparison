@@ -155,6 +155,10 @@ public abstract class MobileThickReactController<T extends AppiumDriver<WebEleme
 		URL url = new URL(MobilePosTestUtils.getMobileAppiumServerBaseURL());
 
 		driver = createDriver(url, capabilities);
+
+		// Visual-regression instrumentation (additive, behaviour-neutral): publish the live driver so
+		// the per-step screenshot plugin can capture the current screen. See com.enactor.pos.mobile.visual.
+		com.enactor.pos.mobile.visual.VisualRegressionDriverRegistry.register(driver);
 	}
 
 	/**

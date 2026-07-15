@@ -1,6 +1,10 @@
 com\enactor\pos\mobile\web\MobileThickReactController.class
+com\enactor\pos\mobile\visual\VisualRegressionScreenshotPlugin.class
 com\enactor\pos\mobile\web\IWrappedElement.class
 com\enactor\pos\mobile\web\ios\IOSWebElementWrapper.class
+com\enactor\pos\mobile\visual\StepScreenshotCapturer.class
+com\enactor\pos\mobile\visual\VisualRegressionConfig$Holder.class
+com\enactor\pos\mobile\visual\VisualRegressionConfig.class
 com\enactor\pos\mobile\IMobileAUTController.class
 com\enactor\pos\mobile\MobileThinClinetTestController.class
 com\enactor\pos\mobile\web\ios\IOSLogicalDeviceStepProvider.class
@@ -16,6 +20,7 @@ com\enactor\pos\mobile\android\AndroidMobileThinClinetTestController.class
 com\enactor\pos\mobile\web\ios\IOSThinClientReactController.class
 com\enactor\pos\mobile\web\android\AndroidLogicalDeviceStepProvider.class
 com\enactor\pos\mobile\web\ios\IOSThinClientWebPosStepsProvider.class
+com\enactor\pos\mobile\visual\VisualStateNamingStrategy.class
 com\enactor\pos\mobile\MobileThinClientPosStepsProvider.class
 com\enactor\pos\mobile\web\android\AndroidThickReactController.class
 com\enactor\pos\mobile\MobileTestController.class
@@ -23,6 +28,7 @@ com\enactor\pos\mobile\web\MobileThinClientReactController.class
 com\enactor\pos\mobile\web\android\AndroidLogicalDeviceStepProvider$3.class
 com\enactor\pos\mobile\utils\IOSPosTestUtils.class
 com\enactor\pos\mobile\web\ios\IOSWebPosStepsProvider.class
+com\enactor\pos\mobile\visual\VisualRegressionConfig$1.class
 com\enactor\pos\mobile\web\ios\IOSThickReactController$AppState.class
 com\enactor\pos\mobile\capabilities\AndroidMobileCapabilityType.class
 com\enactor\pos\mobile\web\android\AndroidWebPosStepsProvider.class
@@ -39,6 +45,7 @@ com\enactor\pos\mobile\web\ios\IOSWebDriver.class
 com\enactor\pos\mobile\web\android\AndroidWebElementWrapper.class
 com\enactor\pos\mobile\iOS\IOSMobileThinClientTestController.class
 com\enactor\pos\mobile\web\WebDriverUtils.class
+com\enactor\pos\mobile\visual\VisualRegressionDriverRegistry.class
 com\enactor\pos\mobile\web\IAUTMobileWebController.class
 com\enactor\pos\mobile\web\MobileLogicalDeviceStepProvider.class
 com\enactor\pos\mobile\web\ios\IOSThickReactController.class

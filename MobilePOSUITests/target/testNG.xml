@@ -1,10 +1,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Test Suite">
-	<test name="Tests">
-		<packages>
-			<package name=".*">
-				<exclude name="com.enactor.core.servers.BaseDBServerImpl"/>
-			</package>
-		</packages>
+<suite name="Pos test">
+	<parameter name="showProgress" value="true" />
+	<test name="feature.sale" junit="false">
+	<parameter name="featurePaths" value="target/dependencyTests/feature/retail/pos" />
+	<parameter name="gluePaths" value="com.enactor.retail.pos.stepDefinitions" />
+		<classes>
+			<class name="com.enactor.core.automation.cucumber.RunCucumberTests" />	
+		</classes>
 	</test>
+
 </suite>

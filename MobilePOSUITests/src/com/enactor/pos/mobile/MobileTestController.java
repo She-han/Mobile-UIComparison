@@ -181,6 +181,10 @@ public abstract class MobileTestController<T extends AppiumDriver<MobileElement>
 
 		driver = createDriver(url, capabilities);
 
+		// Visual-regression instrumentation (additive, behaviour-neutral): publish the live driver so
+		// the per-step screenshot plugin can capture the current screen. See com.enactor.pos.mobile.visual.
+		com.enactor.pos.mobile.visual.VisualRegressionDriverRegistry.register(driver);
+
 		driver.manage().timeouts().implicitlyWait(MobilePosTestUtils.getMobileFindElementWaitTime(), TimeUnit.SECONDS);
 	}
 
