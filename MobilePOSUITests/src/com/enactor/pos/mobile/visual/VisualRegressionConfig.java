@@ -38,8 +38,10 @@ public final class VisualRegressionConfig {
 	private static final double DEFAULT_SIMILARITY_THRESHOLD = 0.95d;
 	private static final double DEFAULT_FIELD_SIMILARITY_THRESHOLD = 0.80d;
 
+	private static final String KEY_PREFIX = "VisualRegression.";
 	private static final String KEY_ENABLED = "VisualRegression.Enabled";
 	private static final String KEY_COMPARE_EACH_STEP = "VisualRegression.CompareEachStep";
+	private static final String KEY_FAIL_SCENARIO_ON_UNMATCH = "VisualRegression.FailScenarioOnUnmatch";
 	private static final String KEY_OUTPUT_DIR = "VisualRegression.OutputDir";
 	private static final String KEY_CROP_FIELDS = "VisualRegression.CropFields";
 	private static final String KEY_CROP_FIELD_PREFIX = "VisualRegression.CropField.";
@@ -57,6 +59,7 @@ public final class VisualRegressionConfig {
 
 	private final boolean enabled;
 	private final boolean compareEachStep;
+	private final boolean failScenarioOnUnmatch;
 	private final String outputDir;
 	private final Map<String, String> cropFields;
 	private final String baselineDir;
@@ -70,6 +73,8 @@ public final class VisualRegressionConfig {
 		Properties props = load();
 		this.enabled = Boolean.parseBoolean(props.getProperty(KEY_ENABLED, "true").trim());
 		this.compareEachStep = Boolean.parseBoolean(props.getProperty(KEY_COMPARE_EACH_STEP, "true").trim());
+		this.failScenarioOnUnmatch = Boolean.parseBoolean(
+				props.getProperty(KEY_FAIL_SCENARIO_ON_UNMATCH, "false").trim());
 		this.outputDir = trimmedOrDefault(props.getProperty(KEY_OUTPUT_DIR), DEFAULT_OUTPUT_DIR);
 		this.cropFields = Collections.unmodifiableMap(readCropFields(props));
 		this.baselineDir = trimmedOrDefault(props.getProperty(KEY_BASELINE_DIR), DEFAULT_BASELINE_DIR);
@@ -102,6 +107,15 @@ public final class VisualRegressionConfig {
 	 */
 	public boolean isCompareEachStep() {
 		return compareEachStep;
+	}
+
+	/**
+	 * @return {@code true} if a scenario should be <em>failed</em> when one or more of its steps is
+	 *         visually unmatched during inline comparison. Requires {@link #isCompareEachStep()}.
+	 *         Default {@code false} — visual results are advisory unless this is explicitly enabled.
+	 */
+	public boolean isFailScenarioOnUnmatch() {
+		return failScenarioOnUnmatch;
 	}
 
 	/**
@@ -204,7 +218,23 @@ public final class VisualRegressionConfig {
 			System.err.println("[VISUAL CAPTURE] Warning: could not load " + CONFIG_FILE_NAME
 					+ " - falling back to defaults. Cause: " + e.getMessage());
 		}
+		// System properties win over the file so a run can be configured entirely from the command line
+		// (e.g. Maven -DVisualRegression.CompareEachStep=true, or an Eclipse launch configuration). This
+		// lets a project adopt the tooling without shipping a properties file.
+		overlaySystemProperties(props);
 		return props;
+	}
+
+	/** Overlays any {@code -DVisualRegression.*} system properties onto the loaded file properties. */
+	private static void overlaySystemProperties(Properties props) {
+		for (String name : System.getProperties().stringPropertyNames()) {
+			if (name.startsWith(KEY_PREFIX)) {
+				String value = System.getProperty(name);
+				if (value != null) {
+					props.setProperty(name, value);
+				}
+			}
+		}
 	}
 
 	private static Map<String, String> readCropFields(Properties props) {

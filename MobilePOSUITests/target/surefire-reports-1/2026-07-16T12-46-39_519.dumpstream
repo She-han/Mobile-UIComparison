@@ -1,4 +1,4 @@
-# Created at 2026-07-15T11:46:26.826
+# Created at 2026-07-16T12:46:40.016
 Boot Manifest-JAR contains absolute paths in classpath 'D:\RDF_POS_Test\MobilePOSAutomationTests-UIComparison\Mobile-UIComparison\MobilePOSUITests\target\test-classes'
 Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
 'other' has different root

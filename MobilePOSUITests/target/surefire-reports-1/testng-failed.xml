@@ -3,7 +3,7 @@
 <suite name="Failed suite [Pos test]" guice-stage="DEVELOPMENT" verbose="0">
   <parameter name="showProgress" value="true"/>
   <test thread-count="5" name="feature.sale(failed)" verbose="0">
-    <parameter name="gluePaths" value="com.enactor.retail.pos.stepDefinitions"/>
+    <parameter name="gluePaths" value="com.enactor.retail.pos.stepDefinitions,com.enactor.pos.mobile.visual"/>
     <parameter name="featurePaths" value="target/dependencyTests/feature/retail/pos"/>
     <classes>
       <class name="com.enactor.core.automation.cucumber.RunCucumberTests">

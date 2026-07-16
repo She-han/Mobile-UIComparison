@@ -87,6 +87,8 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 	private void onTestCaseStarted(TestCaseStarted event) {
 		currentScenario.set(event.getTestCase().getName());
 		stepCounter.set(0);
+		// Start each scenario with a clean visual-outcome record for the scenario-gating hook.
+		VisualStepOutcomeTracker.reset();
 	}
 
 	private void onTestStepFinished(TestStepFinished event) {
@@ -116,7 +118,11 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 
 		// 2) Inline comparison against the baseline (guarded, best-effort).
 		if (actualPng != null && inlineComparisonActive) {
-			compareStepAgainstBaseline(actualPng);
+			StateComparison comparison = compareStepAgainstBaseline(actualPng);
+			// 3) Record genuine mismatches so the @After hook can fail the scenario if configured.
+			if (comparison != null && comparison.isVisualMismatch()) {
+				VisualStepOutcomeTracker.recordUnmatched(label);
+			}
 		}
 	}
 
@@ -132,6 +138,8 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 		} finally {
 			currentScenario.remove();
 			stepCounter.remove();
+			// The @After gating hook has already run (and read the tracker) by this point.
+			VisualStepOutcomeTracker.clear();
 		}
 	}
 
@@ -142,8 +150,10 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 	/**
 	 * Compares one freshly-captured step image against its baseline and records the result. The baseline
 	 * lives at the same scenario/state path under the configured baseline directory.
+	 *
+	 * @return the comparison row that was recorded, or {@code null} if comparison could not run
 	 */
-	private void compareStepAgainstBaseline(File actualPng) {
+	private StateComparison compareStepAgainstBaseline(File actualPng) {
 		try {
 			String scenarioFolder = actualPng.getParentFile().getName();
 			String stateFile = actualPng.getName();
@@ -153,10 +163,12 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 			StateComparison comparison =
 					comparisonService.compareState(scenarioFolder, stateFile, baselinePng, actualPng, diffRoot);
 			results.add(comparison);
+			return comparison;
 		} catch (Exception e) {
 			// Never let inline comparison disrupt the functional test.
 			System.err.println("[VISUAL COMPARE] Inline comparison failed for '" + actualPng.getName()
 					+ "': " + e.getMessage());
+			return null;
 		}
 	}
 

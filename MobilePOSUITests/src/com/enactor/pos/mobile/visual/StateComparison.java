@@ -42,6 +42,15 @@ public final class StateComparison {
 		return passed;
 	}
 
+	/**
+	 * @return {@code true} only for a genuine visual mismatch — the server compared the pair and the
+	 *         similarity was below threshold. Missing baselines and comparison errors are excluded, so
+	 *         they never fail a scenario on their own.
+	 */
+	public boolean isVisualMismatch() {
+		return status == ComparisonStatus.COMPARED && !passed;
+	}
+
 	/** @return the scenario (folder) name this state belongs to. */
 	public String getScenario() {
 		return scenario;
