@@ -56,30 +56,31 @@ public final class VisualComparisonRunner {
 	 * @throws IOException if the report cannot be written
 	 */
 	public int run() throws IOException {
-		File baselineRoot = new File(config.getBaselineDir());
 		File actualRoot = new File(config.getOutputDir());
 		File reportDir = new File(config.getReportDir());
 		File diffRoot = new File(reportDir, "diffs");
+		// null for remote sources (HTTP/Artifactory/SVN) which cannot be listed like a folder.
+		File baselineLocalRoot = service.baselineLocalRoot();
 
 		System.out.println("[VISUAL COMPARE] Dino server : " + config.getDinoServerUrl());
-		System.out.println("[VISUAL COMPARE] Baseline dir : " + baselineRoot.getAbsolutePath());
+		System.out.println("[VISUAL COMPARE] Baseline    : " + config.getBaselineDir());
 		System.out.println("[VISUAL COMPARE] Actual dir   : " + actualRoot.getAbsolutePath());
 		System.out.println("[VISUAL COMPARE] Threshold    : " + config.getSimilarityThreshold());
 
-		if (!baselineRoot.isDirectory()) {
-			throw new IOException("Baseline directory not found: " + baselineRoot.getAbsolutePath()
+		if (baselineLocalRoot != null && !baselineLocalRoot.isDirectory()) {
+			throw new IOException("Baseline directory not found: " + baselineLocalRoot.getAbsolutePath()
 					+ " — establish baselines first (see run-visual-compare.ps1 / README).");
 		}
 		reportDir.mkdirs();
 
 		List<StateComparison> results = new ArrayList<>();
-		for (String scenario : sortedScenarioNames(baselineRoot, actualRoot)) {
-			File baselineScenario = new File(baselineRoot, scenario);
+		for (String scenario : sortedScenarioNames(baselineLocalRoot, actualRoot)) {
 			File actualScenario = new File(actualRoot, scenario);
+			File baselineScenario = baselineLocalRoot == null ? null : new File(baselineLocalRoot, scenario);
 			for (String stateFile : sortedStateFiles(baselineScenario, actualScenario)) {
-				File baselinePng = new File(baselineScenario, stateFile);
 				File actualPng = new File(actualScenario, stateFile);
-				results.add(service.compareState(scenario, stateFile, baselinePng, actualPng, diffRoot));
+				// Baseline is resolved inside the service via the configured provider (local or remote).
+				results.add(service.compareState(scenario, stateFile, actualPng.isFile() ? actualPng : null, diffRoot));
 			}
 		}
 
@@ -105,6 +106,9 @@ public final class VisualComparisonRunner {
 	}
 
 	private void addSubdirNames(File root, Set<String> into) {
+		if (root == null) {
+			return;
+		}
 		File[] dirs = root.listFiles(File::isDirectory);
 		if (dirs != null) {
 			for (File dir : dirs) {
@@ -121,6 +125,9 @@ public final class VisualComparisonRunner {
 	}
 
 	private void addPngNames(File scenarioDir, Set<String> into) {
+		if (scenarioDir == null) {
+			return;
+		}
 		File[] pngs = scenarioDir.listFiles((d, name) -> name.toLowerCase(Locale.ROOT).endsWith(".png"));
 		if (pngs != null) {
 			for (File png : pngs) {

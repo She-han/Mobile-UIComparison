@@ -14,11 +14,11 @@
 #>
 
 param(
-    [string] $Tags        = "@PT-5",
+    [string] $Tags        = "@PT-6",
     [string] $DeviceUUID  = "37201FDJH0040J",
     [string] $PlatformVer = "15",
     [string] $AppiumUrl   = "http://127.0.0.1:4723",
-    [string] $ChromeDriver = "D:\Data\chromedriver-win64\chromedriver.exe",
+    [string] $ChromeDriver = "C:\tools\chromedriver\chromedriver.exe",
     [switch] $VisualRegression   # add -VisualRegression to enable per-step screenshot capture
 )
 

@@ -62,7 +62,7 @@ public final class VisualReportWriter {
 
 		html.append("<header class=\"top\"><div class=\"wrap\">")
 				.append("<h1>Visual Regression Report</h1>")
-				.append("<div class=\"meta\">Threshold ").append(fmt(config.getSimilarityThreshold()))
+				.append("<div class=\"meta\">Threshold ").append(percent(config.getSimilarityThreshold()))
 				.append(" &nbsp;&middot;&nbsp; ").append(escapeHtml(config.getDinoServerUrl()))
 				.append("</div></div></header>");
 
@@ -94,19 +94,24 @@ public final class VisualReportWriter {
 	 */
 	private void appendScenario(StringBuilder html, String scenario, List<StateComparison> states, File reportDir) {
 		int matched = 0;
+		int mismatched = 0;
 		for (StateComparison r : states) {
 			if (r.passed) {
 				matched++;
+			} else if (r.isVisualMismatch()) {
+				mismatched++;
 			}
 		}
-		int unmatched = states.size() - matched;
+		boolean failed = scenarioFailed(scenario, mismatched);
 
-		html.append("<details class=\"scenario\"").append(unmatched > 0 ? " open" : "").append(">");
+		html.append("<details class=\"scenario\"").append(failed ? " open" : "").append(">");
 		html.append("<summary><span class=\"chev\"></span>")
-				.append("<span class=\"sc-name\">").append(escapeHtml(scenario)).append("</span>")
+				.append("<span class=\"sc-title\"><span class=\"sc-name\">").append(escapeHtml(scenario))
+				.append("</span><span class=\"badge ").append(failed ? "bad" : "ok").append(" sc-verdict\">")
+				.append(failed ? "Failed" : "Passed").append("</span></span>")
 				.append("<span class=\"sc-stats\">");
-		if (unmatched > 0) {
-			html.append("<span class=\"pill bad\">").append(unmatched).append(" unmatched</span>");
+		if (mismatched > 0) {
+			html.append("<span class=\"pill bad\">").append(mismatched).append(" unmatched</span>");
 		}
 		html.append("<span class=\"pill ok\">").append(matched).append(" matched</span>")
 				.append("</span></summary>");
@@ -129,10 +134,10 @@ public final class VisualReportWriter {
 		if (r.status == ComparisonStatus.COMPARED) {
 			html.append("<span class=\"badge ").append(r.passed ? "ok" : "bad").append("\">")
 					.append(r.passed ? "Matched" : "Unmatched").append("</span>");
-			html.append("<span class=\"sim\">").append(fmt(r.result.getGlobalSimilarity())).append("</span>");
+			html.append("<span class=\"sim\">").append(percent(r.result.getGlobalSimilarity())).append("</span>");
 			for (Map.Entry<String, Double> field : r.result.getFieldSimilarities().entrySet()) {
 				html.append("<span class=\"field\">").append(escapeHtml(field.getKey())).append(' ')
-						.append(fmt(field.getValue())).append("</span>");
+						.append(percent(field.getValue())).append("</span>");
 			}
 			html.append("</div>");
 		} else {
@@ -193,8 +198,10 @@ public final class VisualReportWriter {
 				+ ".chev{width:7px;height:7px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);"
 				+ "transform:rotate(-45deg);transition:transform .15s ease;flex:none;margin:0 2px}"
 				+ ".scenario[open] .chev{transform:rotate(45deg)}"
-				+ ".sc-name{font-weight:600;flex:1;letter-spacing:-.01em}"
-				+ ".sc-stats{display:flex;gap:6px}"
+				+ ".sc-title{display:flex;align-items:center;gap:8px;flex:1;min-width:0}"
+				+ ".sc-name{font-weight:600;letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}"
+				+ ".sc-verdict{flex:none;font-size:11px}"
+				+ ".sc-stats{display:flex;gap:6px;flex:none}"
 				+ ".pill{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap}"
 				+ ".pill.ok{background:var(--ok-bg);color:var(--ok)}.pill.bad{background:var(--bad-bg);color:var(--bad)}"
 				+ ".table-wrap{border-top:1px solid var(--line);overflow-x:auto}"
@@ -231,8 +238,25 @@ public final class VisualReportWriter {
 		return stateFile.replace(".png", "").replace('_', ' ');
 	}
 
-	private String fmt(double value) {
-		return String.format(Locale.ROOT, "%.3f", value);
+	/** Formats a 0..1 similarity as a percentage, e.g. 0.9524 -> "95.2%", 1.0 -> "100.0%". */
+	private String percent(double value) {
+		return String.format(Locale.ROOT, "%.1f%%", value * 100.0);
+	}
+
+	/**
+	 * Whether the scenario carries a "Failed" verdict. Prefers the real functional result recorded by
+	 * the capture plugin ({@code status_passed.txt}/{@code status_failed.txt} in the scenario's output
+	 * folder); if neither marker is present it falls back to the visual outcome (any genuine mismatch).
+	 */
+	private boolean scenarioFailed(String scenario, int mismatched) {
+		File scenarioDir = new File(config.getOutputDir(), scenario);
+		if (new File(scenarioDir, "status_failed.txt").isFile()) {
+			return true;
+		}
+		if (new File(scenarioDir, "status_passed.txt").isFile()) {
+			return false;
+		}
+		return mismatched > 0;
 	}
 
 	private String escapeHtml(String raw) {

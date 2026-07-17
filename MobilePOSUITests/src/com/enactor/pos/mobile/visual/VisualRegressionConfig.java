@@ -46,6 +46,9 @@ public final class VisualRegressionConfig {
 	private static final String KEY_CROP_FIELDS = "VisualRegression.CropFields";
 	private static final String KEY_CROP_FIELD_PREFIX = "VisualRegression.CropField.";
 	private static final String KEY_BASELINE_DIR = "VisualRegression.BaselineDir";
+	private static final String KEY_BASELINE_CACHE_DIR = "VisualRegression.BaselineCacheDir";
+	private static final String KEY_BASELINE_AUTH_HEADER = "VisualRegression.BaselineAuthHeader";
+	private static final String DEFAULT_BASELINE_CACHE_DIR = "build/visual_outputs/baseline_cache";
 	private static final String KEY_REPORT_DIR = "VisualRegression.ReportDir";
 	private static final String KEY_DINO_URL = "VisualRegression.DinoServerUrl";
 	private static final String KEY_SIMILARITY_THRESHOLD = "VisualRegression.SimilarityThreshold";
@@ -63,6 +66,8 @@ public final class VisualRegressionConfig {
 	private final String outputDir;
 	private final Map<String, String> cropFields;
 	private final String baselineDir;
+	private final String baselineCacheDir;
+	private final String baselineAuthHeader;
 	private final String reportDir;
 	private final String dinoServerUrl;
 	private final double similarityThreshold;
@@ -78,6 +83,8 @@ public final class VisualRegressionConfig {
 		this.outputDir = trimmedOrDefault(props.getProperty(KEY_OUTPUT_DIR), DEFAULT_OUTPUT_DIR);
 		this.cropFields = Collections.unmodifiableMap(readCropFields(props));
 		this.baselineDir = trimmedOrDefault(props.getProperty(KEY_BASELINE_DIR), DEFAULT_BASELINE_DIR);
+		this.baselineCacheDir = trimmedOrDefault(props.getProperty(KEY_BASELINE_CACHE_DIR), DEFAULT_BASELINE_CACHE_DIR);
+		this.baselineAuthHeader = props.getProperty(KEY_BASELINE_AUTH_HEADER, "").trim();
 		this.reportDir = trimmedOrDefault(props.getProperty(KEY_REPORT_DIR), DEFAULT_REPORT_DIR);
 		this.dinoServerUrl = trimmedOrDefault(props.getProperty(KEY_DINO_URL), DEFAULT_DINO_URL);
 		this.similarityThreshold = parseDouble(props.getProperty(KEY_SIMILARITY_THRESHOLD), DEFAULT_SIMILARITY_THRESHOLD);
@@ -138,6 +145,24 @@ public final class VisualRegressionConfig {
 	 */
 	public String getBaselineDir() {
 		return baselineDir;
+	}
+
+	/**
+	 * @return local directory where baselines fetched from a remote source (HTTP/Artifactory/SVN) are
+	 *         cached. Ignored for local {@code BaselineDir} values. Default
+	 *         {@code build/visual_outputs/baseline_cache}.
+	 */
+	public String getBaselineCacheDir() {
+		return baselineCacheDir;
+	}
+
+	/**
+	 * @return value for the HTTP {@code Authorization} header when fetching baselines from a secured
+	 *         server/Artifactory (e.g. {@code "Bearer <token>"} or {@code "Basic <base64>"}); empty when
+	 *         no authentication is needed.
+	 */
+	public String getBaselineAuthHeader() {
+		return baselineAuthHeader;
 	}
 
 	/**

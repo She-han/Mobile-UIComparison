@@ -32,29 +32,41 @@ public final class VisualComparisonService {
 
 	private final VisualRegressionConfig config;
 	private final DinoServerClient client;
+	private final BaselineProvider baselineProvider;
 
 	public VisualComparisonService(VisualRegressionConfig config) {
 		this.config = config;
 		this.client = new DinoServerClient(config.getDinoServerUrl());
+		this.baselineProvider = BaselineProviders.create(config);
 	}
 
 	/**
-	 * Compares one state and, on success, writes its diff image under {@code diffRoot}.
-	 *
-	 * @param scenario    the scenario (folder) name
-	 * @param stateFile   the state PNG file name (e.g. {@code 001_Given_....png})
-	 * @param baselinePng the approved baseline image (may not exist)
-	 * @param actualPng   the freshly captured image (may not exist)
-	 * @param diffRoot    directory under which {@code diffs/<scenario>/<state>_diff.png} is written
-	 * @return the comparison row (never {@code null}); its {@link Status} records what happened
+	 * @return the local baseline root when baselines are on the filesystem (for enumeration), or
+	 *         {@code null} when they come from a remote source that cannot be listed.
 	 */
-	public StateComparison compareState(String scenario, String stateFile, File baselinePng, File actualPng,
-			File diffRoot) {
-		if (baselinePng == null || !baselinePng.isFile()) {
-			return StateComparison.missing(scenario, stateFile, "No baseline image for this state.");
-		}
+	public File baselineLocalRoot() {
+		return baselineProvider.localRoot();
+	}
+
+	/**
+	 * Compares one state and, on success, writes its diff image under {@code diffRoot}. The baseline is
+	 * resolved through the configured {@link BaselineProvider}, so it may be local, on a network share,
+	 * or fetched from an HTTP/Artifactory/SVN source.
+	 *
+	 * @param scenario  the scenario (folder) name
+	 * @param stateFile the state PNG file name (e.g. {@code 001_Given_....png})
+	 * @param actualPng the freshly captured image (may not exist)
+	 * @param diffRoot  directory under which {@code diffs/<scenario>/<state>_diff.png} is written
+	 * @return the comparison row (never {@code null}); its {@link ComparisonStatus} records what happened
+	 */
+	public StateComparison compareState(String scenario, String stateFile, File actualPng, File diffRoot) {
 		if (actualPng == null || !actualPng.isFile()) {
 			return StateComparison.missing(scenario, stateFile, "No actual image captured for this state.");
+		}
+		File baselinePng = baselineProvider.getBaseline(scenario, stateFile);
+		if (baselinePng == null || !baselinePng.isFile()) {
+			return StateComparison.missing(scenario, stateFile,
+					"No baseline image for this state (source: " + config.getBaselineDir() + ").");
 		}
 
 		try {

@@ -68,10 +68,12 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 		this.config = config;
 		this.capturer = capturer;
 
-		// Inline comparison is active only when requested AND a baseline set already exists — otherwise
-		// (e.g. the very first run that establishes baselines) we silently capture without comparing.
-		boolean baselineExists = new File(config.getBaselineDir()).isDirectory();
-		this.inlineComparisonActive = config.isEnabled() && config.isCompareEachStep() && baselineExists;
+		// Inline comparison is active only when requested AND a baseline set is available. For a local
+		// BaselineDir that means the folder exists (so the very first, baseline-establishing run simply
+		// captures); for a remote source (HTTP/Artifactory/SVN) we always attempt and report per-state.
+		boolean baselineAvailable = BaselineProviders.isRemote(config.getBaselineDir())
+				|| new File(config.getBaselineDir()).isDirectory();
+		this.inlineComparisonActive = config.isEnabled() && config.isCompareEachStep() && baselineAvailable;
 		this.comparisonService = inlineComparisonActive ? new VisualComparisonService(config) : null;
 		this.reportWriter = inlineComparisonActive ? new VisualReportWriter(config) : null;
 	}
@@ -98,6 +100,11 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 		TestStep testStep = event.getTestStep();
 		if (!(testStep instanceof PickleStepTestStep)) {
 			// Skip Cucumber before/after hook steps - only capture true Gherkin steps.
+			return;
+		}
+		if (Status.SKIPPED.equals(event.getResult().getStatus())) {
+			// Steps skipped because an earlier step failed (e.g. fail-fast gating) never ran - there is
+			// nothing new on screen to capture, and capturing would add misleading rows to the report.
 			return;
 		}
 
@@ -157,11 +164,12 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 		try {
 			String scenarioFolder = actualPng.getParentFile().getName();
 			String stateFile = actualPng.getName();
-			File baselinePng = new File(new File(config.getBaselineDir(), scenarioFolder), stateFile);
 			File diffRoot = new File(config.getReportDir(), "diffs");
 
+			// The baseline is resolved inside the service via the configured BaselineProvider (local,
+			// network share, HTTP/Artifactory, or SVN).
 			StateComparison comparison =
-					comparisonService.compareState(scenarioFolder, stateFile, baselinePng, actualPng, diffRoot);
+					comparisonService.compareState(scenarioFolder, stateFile, actualPng, diffRoot);
 			results.add(comparison);
 			return comparison;
 		} catch (Exception e) {
