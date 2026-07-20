@@ -45,6 +45,7 @@ public final class VisualRegressionConfig {
 	private static final String KEY_OUTPUT_DIR = "VisualRegression.OutputDir";
 	private static final String KEY_CROP_FIELDS = "VisualRegression.CropFields";
 	private static final String KEY_CROP_FIELD_PREFIX = "VisualRegression.CropField.";
+	private static final String KEY_CROP_SCALING = "VisualRegression.CropScaling";
 	private static final String KEY_BASELINE_DIR = "VisualRegression.BaselineDir";
 	private static final String KEY_BASELINE_CACHE_DIR = "VisualRegression.BaselineCacheDir";
 	private static final String KEY_BASELINE_AUTH_HEADER = "VisualRegression.BaselineAuthHeader";
@@ -65,6 +66,7 @@ public final class VisualRegressionConfig {
 	private final boolean failScenarioOnUnmatch;
 	private final String outputDir;
 	private final Map<String, String> cropFields;
+	private final boolean cropAutoScale;
 	private final String baselineDir;
 	private final String baselineCacheDir;
 	private final String baselineAuthHeader;
@@ -82,6 +84,7 @@ public final class VisualRegressionConfig {
 				props.getProperty(KEY_FAIL_SCENARIO_ON_UNMATCH, "false").trim());
 		this.outputDir = trimmedOrDefault(props.getProperty(KEY_OUTPUT_DIR), DEFAULT_OUTPUT_DIR);
 		this.cropFields = Collections.unmodifiableMap(readCropFields(props));
+		this.cropAutoScale = !isDisabled(props.getProperty(KEY_CROP_SCALING, "auto"));
 		this.baselineDir = trimmedOrDefault(props.getProperty(KEY_BASELINE_DIR), DEFAULT_BASELINE_DIR);
 		this.baselineCacheDir = trimmedOrDefault(props.getProperty(KEY_BASELINE_CACHE_DIR), DEFAULT_BASELINE_CACHE_DIR);
 		this.baselineAuthHeader = props.getProperty(KEY_BASELINE_AUTH_HEADER, "").trim();
@@ -133,10 +136,21 @@ public final class VisualRegressionConfig {
 	}
 
 	/**
-	 * @return an unmodifiable map of logical field name to Appium resource-id for tracked crop fields
+	 * @return an unmodifiable map of logical field name to element locator for tracked crop fields. Each
+	 *         locator may be a bare id (native resource-id or HTML {@code id}) or a
+	 *         {@code strategy=value} form (e.g. {@code test-component-id=InputBox}, {@code xpath=//...}).
 	 */
 	public Map<String, String> getCropFields() {
 		return cropFields;
+	}
+
+	/**
+	 * @return {@code true} (default) to auto-scale WebView crop coordinates (CSS pixels) onto the
+	 *         device-resolution screenshot and offset them below the status bar; {@code false}
+	 *         ({@code VisualRegression.CropScaling=none}) to record raw element coordinates unchanged.
+	 */
+	public boolean isCropAutoScale() {
+		return cropAutoScale;
 	}
 
 	/**
@@ -285,5 +299,14 @@ public final class VisualRegressionConfig {
 
 	private static String trimmedOrDefault(String value, String fallback) {
 		return (value != null && !value.trim().isEmpty()) ? value.trim() : fallback;
+	}
+
+	/** Treats {@code none}/{@code off}/{@code false} (any case) as "disabled"; everything else enabled. */
+	private static boolean isDisabled(String value) {
+		if (value == null) {
+			return false;
+		}
+		String v = value.trim().toLowerCase(java.util.Locale.ROOT);
+		return v.equals("none") || v.equals("off") || v.equals("false") || v.equals("0");
 	}
 }

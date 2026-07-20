@@ -4,8 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -21,11 +22,19 @@ import java.util.Map;
  * Matched/Unmatched badge and similarity score beneath it, the baseline and actual thumbnails, and a
  * diff image only when the step is unmatched.</p>
  *
+ * <p>The page is fully <strong>self-contained</strong>: every image is embedded inline as a
+ * {@code data:} URI rather than linked to a file on disk, so the single {@code Visual-Report.html} can
+ * be moved or shared anywhere and still render. A "Download report" button saves a copy from the
+ * browser. Encoded images are cached per writer instance so repeated inline flushes stay cheap.</p>
+ *
  * @author Visual Regression Subsystem
  */
 public final class VisualReportWriter {
 
 	private final VisualRegressionConfig config;
+
+	/** Caches base64 data URIs by path+size+mtime so re-flushes don't re-encode unchanged images. */
+	private final Map<String, String> dataUriCache = new HashMap<>();
 
 	public VisualReportWriter(VisualRegressionConfig config) {
 		this.config = config;
@@ -60,11 +69,14 @@ public final class VisualReportWriter {
 		html.append("<title>Visual Regression Report</title>");
 		html.append("<style>").append(reportCss()).append("</style></head><body>");
 
-		html.append("<header class=\"top\"><div class=\"wrap\">")
+		html.append("<header class=\"top\"><div class=\"wrap head-row\"><div>")
 				.append("<h1>Visual Regression Report</h1>")
 				.append("<div class=\"meta\">Threshold ").append(percent(config.getSimilarityThreshold()))
 				.append(" &nbsp;&middot;&nbsp; ").append(escapeHtml(config.getDinoServerUrl()))
-				.append("</div></div></header>");
+				.append("</div></div>")
+				.append("<button type=\"button\" class=\"dl-btn\" onclick=\"downloadReport()\">")
+				.append("<span class=\"dl-ic\">&#8595;</span> Download report</button>")
+				.append("</div></header>");
 
 		html.append("<div class=\"wrap summary\">")
 				.append(summaryStat(total, "Steps", ""))
@@ -77,6 +89,16 @@ public final class VisualReportWriter {
 			appendScenario(html, entry.getKey(), entry.getValue(), report.getParentFile());
 		}
 		html.append("</main>");
+
+		// Self-download: the page is already self-contained (images are inline data URIs), so serialising
+		// the current DOM yields a complete, portable copy that works from any location.
+		html.append("<script>function downloadReport(){")
+				.append("var html='<!DOCTYPE html>\\n'+document.documentElement.outerHTML;")
+				.append("var blob=new Blob([html],{type:'text/html;charset=utf-8'});")
+				.append("var a=document.createElement('a');a.href=URL.createObjectURL(blob);")
+				.append("a.download='Visual-Report.html';document.body.appendChild(a);a.click();a.remove();")
+				.append("setTimeout(function(){URL.revokeObjectURL(a.href);},1500);}")
+				.append("</script>");
 
 		html.append("</body></html>");
 		Files.write(report.toPath(), html.toString().getBytes(StandardCharsets.UTF_8));
@@ -156,7 +178,12 @@ public final class VisualReportWriter {
 		// Diff — only shown when there is an actual difference (unmatched).
 		html.append("<td>");
 		if (r.status == ComparisonStatus.COMPARED && !r.passed && r.diffRelative != null) {
-			html.append("<img class=\"shot\" src=\"").append(escapeHtml(r.diffRelative)).append("\" loading=\"lazy\">");
+			String diffUri = dataUri(new File(reportDir, r.diffRelative));
+			if (diffUri != null) {
+				html.append("<img class=\"shot\" src=\"").append(diffUri).append("\" loading=\"lazy\">");
+			} else {
+				html.append("<span class=\"none\">&mdash;</span>");
+			}
 		} else if (r.status == ComparisonStatus.COMPARED && r.passed) {
 			html.append("<span class=\"none\">No differences</span>");
 		} else {
@@ -166,11 +193,51 @@ public final class VisualReportWriter {
 	}
 
 	private String imgTag(File image, File reportDir) {
-		if (image == null || !image.isFile()) {
+		String uri = dataUri(image);
+		if (uri == null) {
 			return "<span class=\"none\">&mdash;</span>";
 		}
-		String src = relativeOrUri(reportDir, image);
-		return "<img class=\"shot\" src=\"" + escapeHtml(src) + "\" loading=\"lazy\">";
+		return "<img class=\"shot\" src=\"" + uri + "\" loading=\"lazy\">";
+	}
+
+	/**
+	 * Encodes an image file as an inline {@code data:} URI so the report is fully self-contained. Results
+	 * are cached by absolute path + size + last-modified, so repeated inline flushes only re-encode images
+	 * that actually changed. Base64 needs no HTML escaping (its alphabet has no HTML-special characters).
+	 *
+	 * @return the {@code data:image/...;base64,...} URI, or {@code null} if the file is absent/unreadable
+	 */
+	private String dataUri(File image) {
+		if (image == null || !image.isFile()) {
+			return null;
+		}
+		String key = image.getAbsolutePath() + '|' + image.length() + '|' + image.lastModified();
+		String cached = dataUriCache.get(key);
+		if (cached != null) {
+			return cached;
+		}
+		try {
+			byte[] bytes = Files.readAllBytes(image.toPath());
+			String uri = "data:" + mimeFor(image.getName()) + ";base64," + Base64.getEncoder().encodeToString(bytes);
+			dataUriCache.put(key, uri);
+			return uri;
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
+	private String mimeFor(String fileName) {
+		String lower = fileName.toLowerCase(Locale.ROOT);
+		if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) {
+			return "image/jpeg";
+		}
+		if (lower.endsWith(".gif")) {
+			return "image/gif";
+		}
+		if (lower.endsWith(".webp")) {
+			return "image/webp";
+		}
+		return "image/png";
 	}
 
 	/** The report stylesheet — kept in one place for a clean, minimal, professional look. */
@@ -184,8 +251,14 @@ public final class VisualReportWriter {
 				+ ".wrap{max-width:1120px;margin:0 auto;padding-left:28px;padding-right:28px}"
 				+ ".top{background:var(--card);border-bottom:1px solid var(--line)}"
 				+ ".top .wrap{padding-top:22px;padding-bottom:22px}"
+				+ ".head-row{display:flex;align-items:center;justify-content:space-between;gap:16px}"
 				+ ".top h1{margin:0;font-size:18px;font-weight:600;letter-spacing:-.01em}"
 				+ ".top .meta{margin-top:4px;color:var(--muted);font-size:12.5px}"
+				+ ".dl-btn{flex:none;cursor:pointer;font:inherit;font-size:13px;font-weight:600;color:#fff;"
+				+ "background:var(--ink);border:none;border-radius:8px;padding:9px 16px;display:inline-flex;"
+				+ "align-items:center;gap:7px;transition:opacity .15s ease}"
+				+ ".dl-btn:hover{opacity:.88}.dl-btn:active{opacity:.76}"
+				+ ".dl-ic{font-size:15px;line-height:1}"
 				+ ".summary{display:flex;gap:12px;margin-top:20px;margin-bottom:4px}"
 				+ ".stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;min-width:112px}"
 				+ ".stat .n{font-size:24px;font-weight:650;font-variant-numeric:tabular-nums}"
@@ -222,16 +295,6 @@ public final class VisualReportWriter {
 				+ ".msg{margin-top:8px;color:var(--muted);font-size:12.5px}"
 				+ ".shot{max-width:200px;max-height:320px;border:1px solid var(--line);border-radius:6px;display:block}"
 				+ ".none{color:#b8bcc4;font-size:12.5px}";
-	}
-
-	/** Prefers a report-relative path (portable) and falls back to a file: URI across roots/drives. */
-	private String relativeOrUri(File reportDir, File target) {
-		try {
-			Path rel = reportDir.getAbsoluteFile().toPath().relativize(target.getAbsoluteFile().toPath());
-			return rel.toString().replace('\\', '/');
-		} catch (IllegalArgumentException differentRoot) {
-			return target.toURI().toString();
-		}
 	}
 
 	private String prettyStep(String stateFile) {

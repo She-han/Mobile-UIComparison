@@ -87,8 +87,14 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 	}
 
 	private void onTestCaseStarted(TestCaseStarted event) {
-		currentScenario.set(event.getTestCase().getName());
+		String scenarioName = event.getTestCase().getName();
+		currentScenario.set(scenarioName);
 		stepCounter.set(0);
+		// Wipe this scenario's previously captured images/metadata so the run starts clean and the folder
+		// only ever holds the current run's screenshots (re-captured step by step below).
+		if (config.isEnabled()) {
+			capturer.resetScenario(scenarioName);
+		}
 		// Start each scenario with a clean visual-outcome record for the scenario-gating hook.
 		VisualStepOutcomeTracker.reset();
 	}
