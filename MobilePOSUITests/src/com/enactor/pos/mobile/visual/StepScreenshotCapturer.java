@@ -158,7 +158,7 @@ public class StepScreenshotCapturer {
 	 * @param scenarioName the Cucumber scenario name whose capture + diff folders should be cleared
 	 */
 	public void resetScenario(String scenarioName) {
-		String folder = namingStrategy.scenarioFolderName(scenarioName);
+		String folder = namingStrategy.scenarioFolderPath(scenarioName);
 		try {
 			// 1) captured "actual" images + metadata + status markers
 			deleteRecursively(new File(config.getOutputDir(), folder));
@@ -188,7 +188,7 @@ public class StepScreenshotCapturer {
 	}
 
 	private File scenarioDirectory(String scenarioName) {
-		File dir = new File(config.getOutputDir(), namingStrategy.scenarioFolderName(scenarioName));
+		File dir = new File(config.getOutputDir(), namingStrategy.scenarioFolderPath(scenarioName));
 		dir.mkdirs();
 		return dir;
 	}

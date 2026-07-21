@@ -74,7 +74,7 @@ public final class VisualComparisonRunner {
 		reportDir.mkdirs();
 
 		List<StateComparison> results = new ArrayList<>();
-		for (String scenario : sortedScenarioNames(baselineLocalRoot, actualRoot)) {
+		for (String scenario : sortedScenarioKeys(baselineLocalRoot, actualRoot)) {
 			File actualScenario = new File(actualRoot, scenario);
 			File baselineScenario = baselineLocalRoot == null ? null : new File(baselineLocalRoot, scenario);
 			for (String stateFile : sortedStateFiles(baselineScenario, actualScenario)) {
@@ -98,21 +98,40 @@ public final class VisualComparisonRunner {
 		return failures;
 	}
 
-	private Set<String> sortedScenarioNames(File baselineRoot, File actualRoot) {
-		Set<String> names = new TreeSet<>();
-		addSubdirNames(baselineRoot, names);
-		addSubdirNames(actualRoot, names);
-		return names;
+	private Set<String> sortedScenarioKeys(File baselineRoot, File actualRoot) {
+		Set<String> keys = new TreeSet<>();
+		collectScenarioKeys(actualRoot, actualRoot, keys);
+		collectScenarioKeys(baselineRoot, baselineRoot, keys);
+		return keys;
 	}
 
-	private void addSubdirNames(File root, Set<String> into) {
-		if (root == null) {
+	/**
+	 * Recursively records the path (relative to {@code base}, using {@code /} separators) of every
+	 * directory that directly contains at least one PNG state. This supports the nested layout where
+	 * captures mirror the feature file's path (e.g. {@code feature/retail/.../X.feature/<Scenario>}), as
+	 * well as a flat single-folder layout.
+	 */
+	private void collectScenarioKeys(File dir, File base, Set<String> into) {
+		if (dir == null || !dir.isDirectory()) {
 			return;
 		}
-		File[] dirs = root.listFiles(File::isDirectory);
-		if (dirs != null) {
-			for (File dir : dirs) {
-				into.add(dir.getName());
+		File[] entries = dir.listFiles();
+		if (entries == null) {
+			return;
+		}
+		boolean hasPng = false;
+		for (File entry : entries) {
+			if (entry.isFile() && entry.getName().toLowerCase(Locale.ROOT).endsWith(".png")) {
+				hasPng = true;
+				break;
+			}
+		}
+		if (hasPng && !dir.equals(base)) {
+			into.add(base.toPath().relativize(dir.toPath()).toString().replace('\\', '/'));
+		}
+		for (File entry : entries) {
+			if (entry.isDirectory()) {
+				collectScenarioKeys(entry, base, into);
 			}
 		}
 	}

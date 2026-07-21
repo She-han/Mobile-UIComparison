@@ -1,6 +1,7 @@
 package com.enactor.pos.mobile.visual;
 
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,6 +44,9 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 
 	private final VisualRegressionConfig config;
 	private final StepScreenshotCapturer capturer;
+
+	/** Sanitises the feature-path + scenario key once so every downstream folder/lookup agrees. */
+	private final VisualStateNamingStrategy namingStrategy = new VisualStateNamingStrategy();
 
 	/** Lazily created only when inline comparison is enabled and a baseline exists. */
 	private final VisualComparisonService comparisonService;
@@ -87,13 +91,21 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 	}
 
 	private void onTestCaseStarted(TestCaseStarted event) {
+		// The capture folder mirrors the feature file's own path (derived from the running test case) with
+		// the scenario name as the leaf, e.g. feature/retail/pos/.../GiftCard.feature/View_Gift_Card_history.
+		// Nesting under the feature path keeps captures traceable to their source and keeps scenarios that
+		// share a feature file in separate folders.
+		String featurePath = featureRelativePath(event.getTestCase().getUri());
 		String scenarioName = event.getTestCase().getName();
-		currentScenario.set(scenarioName);
+		// Sanitise the full nested key up front so the capture folder, baseline lookup, diff folder and
+		// status markers all resolve to the exact same path.
+		String scenarioKey = namingStrategy.scenarioFolderPath(featurePath + "/" + scenarioName);
+		currentScenario.set(scenarioKey);
 		stepCounter.set(0);
 		// Wipe this scenario's previously captured images/metadata so the run starts clean and the folder
 		// only ever holds the current run's screenshots (re-captured step by step below).
 		if (config.isEnabled()) {
-			capturer.resetScenario(scenarioName);
+			capturer.resetScenario(scenarioKey);
 		}
 		// Start each scenario with a clean visual-outcome record for the scenario-gating hook.
 		VisualStepOutcomeTracker.reset();
@@ -131,7 +143,7 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 
 		// 2) Inline comparison against the baseline (guarded, best-effort).
 		if (actualPng != null && inlineComparisonActive) {
-			StateComparison comparison = compareStepAgainstBaseline(actualPng);
+			StateComparison comparison = compareStepAgainstBaseline(currentScenario.get(), actualPng);
 			// 3) Record genuine mismatches so the @After hook can fail the scenario if configured.
 			if (comparison != null && comparison.isVisualMismatch()) {
 				VisualStepOutcomeTracker.recordUnmatched(label);
@@ -162,20 +174,22 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 
 	/**
 	 * Compares one freshly-captured step image against its baseline and records the result. The baseline
-	 * lives at the same scenario/state path under the configured baseline directory.
+	 * lives at the same scenario-key/state path under the configured baseline directory, so the (possibly
+	 * nested) key must be passed through rather than re-derived from the file's immediate parent folder.
 	 *
+	 * @param scenarioKey the nested scenario folder key (feature path + scenario name)
+	 * @param actualPng   the freshly captured step image
 	 * @return the comparison row that was recorded, or {@code null} if comparison could not run
 	 */
-	private StateComparison compareStepAgainstBaseline(File actualPng) {
+	private StateComparison compareStepAgainstBaseline(String scenarioKey, File actualPng) {
 		try {
-			String scenarioFolder = actualPng.getParentFile().getName();
 			String stateFile = actualPng.getName();
 			File diffRoot = new File(config.getReportDir(), "diffs");
 
 			// The baseline is resolved inside the service via the configured BaselineProvider (local,
 			// network share, HTTP/Artifactory, or SVN).
 			StateComparison comparison =
-					comparisonService.compareState(scenarioFolder, stateFile, actualPng, diffRoot);
+					comparisonService.compareState(scenarioKey, stateFile, actualPng, diffRoot);
 			results.add(comparison);
 			return comparison;
 		} catch (Exception e) {
@@ -184,6 +198,39 @@ public class VisualRegressionScreenshotPlugin implements ConcurrentEventListener
 					+ "': " + e.getMessage());
 			return null;
 		}
+	}
+
+	/**
+	 * Derives a clean, portable relative feature path from a Cucumber test case URI so captures can be
+	 * organised to mirror the feature file's own location. Handles {@code file:} URIs (absolute paths on
+	 * disk, e.g. the unpacked {@code target/dependencyTests/...}) and {@code classpath:} URIs. Falls back
+	 * to the bare file name if no {@code feature/} segment is present.
+	 *
+	 * <p>Example: {@code file:///D:/.../target/dependencyTests/feature/retail/pos/.../GiftCard.feature}
+	 * &rarr; {@code feature/retail/pos/.../GiftCard.feature}.</p>
+	 */
+	private String featureRelativePath(URI uri) {
+		if (uri == null) {
+			return "feature";
+		}
+		String raw = uri.getPath();
+		if (raw == null || raw.isEmpty()) {
+			raw = uri.getSchemeSpecificPart();
+		}
+		if (raw == null || raw.isEmpty()) {
+			raw = uri.toString();
+		}
+		raw = raw.replace('\\', '/');
+		int idx = raw.indexOf("/feature/");
+		if (idx >= 0) {
+			return raw.substring(idx + 1);
+		}
+		if (raw.startsWith("feature/")) {
+			return raw;
+		}
+		int slash = raw.lastIndexOf('/');
+		String name = slash >= 0 ? raw.substring(slash + 1) : raw;
+		return name.isEmpty() ? "feature" : name;
 	}
 
 	/** (Re)writes the HTML report from everything accumulated so far. Best-effort. */

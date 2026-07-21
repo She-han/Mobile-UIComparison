@@ -57,10 +57,34 @@ public final class VisualReportWriter {
 		}
 		int failed = total - passed;
 
-		// Group states by scenario, preserving discovery order.
+		// Group states by scenario key (the nested feature-path key), preserving discovery order.
 		Map<String, List<StateComparison>> byScenario = new LinkedHashMap<>();
 		for (StateComparison r : results) {
 			byScenario.computeIfAbsent(r.scenario, k -> new ArrayList<>()).add(r);
+		}
+
+		// Build a folder tree from the nested keys, then collapse single-child chains so common prefixes
+		// stay compact and real branch points (e.g. pos vs em) are visible.
+		Node root = new Node("");
+		for (Map.Entry<String, List<StateComparison>> entry : byScenario.entrySet()) {
+			String[] segments = entry.getKey().split("/");
+			Node node = root;
+			for (int i = 0; i < segments.length - 1; i++) {
+				node = node.child(segments[i]);
+			}
+			String scenarioName = segments.length > 0 ? segments[segments.length - 1] : entry.getKey();
+			node.scenarios.add(new ScenarioGroup(scenarioName, entry.getKey(), entry.getValue()));
+		}
+		Map<String, Node> topLevel = new LinkedHashMap<>();
+		for (Node child : root.children.values()) {
+			Node compressed = compress(child);
+			topLevel.put(compressed.name, compressed);
+		}
+
+		int scenarioCount = byScenario.size();
+		int failedScenarios = 0;
+		for (Node node : topLevel.values()) {
+			failedScenarios += rollup(node)[3];
 		}
 
 		StringBuilder html = new StringBuilder(64 * 1024);
@@ -79,14 +103,16 @@ public final class VisualReportWriter {
 				.append("</div></header>");
 
 		html.append("<div class=\"wrap summary\">")
+				.append(summaryStat(scenarioCount, "Scenarios", ""))
 				.append(summaryStat(total, "Steps", ""))
 				.append(summaryStat(passed, "Matched", "ok"))
 				.append(summaryStat(failed, "Unmatched", failed > 0 ? "bad" : ""))
+				.append(summaryStat(failedScenarios, "Failed", failedScenarios > 0 ? "bad" : ""))
 				.append("</div>");
 
-		html.append("<main class=\"wrap\">");
-		for (Map.Entry<String, List<StateComparison>> entry : byScenario.entrySet()) {
-			appendScenario(html, entry.getKey(), entry.getValue(), report.getParentFile());
+		html.append("<main class=\"wrap tree\">");
+		for (Node node : topLevel.values()) {
+			renderNode(html, node, report.getParentFile());
 		}
 		html.append("</main>");
 
@@ -109,26 +135,140 @@ public final class VisualReportWriter {
 				+ label + "</div></div>";
 	}
 
+	/** A folder in the report tree: named subfolders plus any scenarios that live directly inside it. */
+	private static final class Node {
+		private final String name;
+		private final Map<String, Node> children = new LinkedHashMap<>();
+		private final List<ScenarioGroup> scenarios = new ArrayList<>();
+
+		Node(String name) {
+			this.name = name;
+		}
+
+		Node child(String segment) {
+			return children.computeIfAbsent(segment, Node::new);
+		}
+	}
+
+	/** One scenario leaf: its display name, its full (nested) key, and its step comparison rows. */
+	private static final class ScenarioGroup {
+		private final String name;
+		private final String key;
+		private final List<StateComparison> states;
+
+		ScenarioGroup(String name, String key, List<StateComparison> states) {
+			this.name = name;
+			this.key = key;
+			this.states = states;
+		}
+	}
+
+	/**
+	 * Collapses single-child folder chains so a long common prefix renders as one node (e.g.
+	 * {@code feature/retail/pos/.../GiftCard.feature}) while genuine branch points (pos vs em) stay as
+	 * separate children. Children are compressed first (bottom-up), then this node is merged with its sole
+	 * child while it has exactly one subfolder and no scenarios of its own.
+	 */
+	private Node compress(Node node) {
+		List<Node> compressedChildren = new ArrayList<>();
+		for (Node child : node.children.values()) {
+			compressedChildren.add(compress(child));
+		}
+		node.children.clear();
+		for (Node child : compressedChildren) {
+			node.children.put(child.name, child);
+		}
+		Node current = node;
+		while (current.children.size() == 1 && current.scenarios.isEmpty()) {
+			Node only = current.children.values().iterator().next();
+			Node merged = new Node(current.name.isEmpty() ? only.name : current.name + "/" + only.name);
+			merged.children.putAll(only.children);
+			merged.scenarios.addAll(only.scenarios);
+			current = merged;
+		}
+		return current;
+	}
+
+	/**
+	 * Aggregates counts over a folder subtree.
+	 *
+	 * @return {@code {steps, matched, unmatched, failedScenarios, scenarios}}
+	 */
+	private int[] rollup(Node node) {
+		int steps = 0, matched = 0, unmatched = 0, failedScenarios = 0, scenarios = 0;
+		for (ScenarioGroup scenario : node.scenarios) {
+			scenarios++;
+			int mismatched = 0;
+			for (StateComparison r : scenario.states) {
+				steps++;
+				if (r.passed) {
+					matched++;
+				} else if (r.isVisualMismatch()) {
+					unmatched++;
+					mismatched++;
+				}
+			}
+			if (scenarioFailed(scenario.key, mismatched)) {
+				failedScenarios++;
+			}
+		}
+		for (Node child : node.children.values()) {
+			int[] childRoll = rollup(child);
+			steps += childRoll[0];
+			matched += childRoll[1];
+			unmatched += childRoll[2];
+			failedScenarios += childRoll[3];
+			scenarios += childRoll[4];
+		}
+		return new int[] { steps, matched, unmatched, failedScenarios, scenarios };
+	}
+
+	/**
+	 * Renders one folder node as a collapsible {@code <details>} with a folder/feature icon, its path
+	 * label, and a rolled-up scenario/failure count, then recurses into child folders and scenarios.
+	 */
+	private void renderNode(StringBuilder html, Node node, File reportDir) {
+		int[] roll = rollup(node);
+		boolean isFeature = node.name.toLowerCase(Locale.ROOT).endsWith(".feature");
+		html.append("<details class=\"folder\" open><summary><span class=\"chev\"></span>")
+				.append("<span class=\"node-icon\">").append(isFeature ? "&#128196;" : "&#128193;").append("</span>")
+				.append("<span class=\"node-name\">").append(escapeHtml(node.name)).append("</span>")
+				.append("<span class=\"sc-stats\">");
+		if (roll[3] > 0) {
+			html.append("<span class=\"pill bad\">").append(roll[3]).append(" failed</span>");
+		}
+		html.append("<span class=\"pill soft\">").append(roll[4])
+				.append(roll[4] == 1 ? " scenario" : " scenarios").append("</span>")
+				.append("</span></summary><div class=\"folder-body\">");
+		for (Node child : node.children.values()) {
+			renderNode(html, child, reportDir);
+		}
+		for (ScenarioGroup scenario : node.scenarios) {
+			renderScenario(html, scenario, reportDir);
+		}
+		html.append("</div></details>");
+	}
+
 	/**
 	 * Renders one scenario as a native collapsible {@code <details>} block. Clicking the scenario name
 	 * (the {@code <summary>}) expands/collapses its steps — no JavaScript required. Scenarios that
 	 * contain an unmatched step are expanded by default so regressions are visible at a glance.
 	 */
-	private void appendScenario(StringBuilder html, String scenario, List<StateComparison> states, File reportDir) {
+	private void renderScenario(StringBuilder html, ScenarioGroup scenario, File reportDir) {
 		int matched = 0;
 		int mismatched = 0;
-		for (StateComparison r : states) {
+		for (StateComparison r : scenario.states) {
 			if (r.passed) {
 				matched++;
 			} else if (r.isVisualMismatch()) {
 				mismatched++;
 			}
 		}
-		boolean failed = scenarioFailed(scenario, mismatched);
+		boolean failed = scenarioFailed(scenario.key, mismatched);
 
 		html.append("<details class=\"scenario\"").append(failed ? " open" : "").append(">");
 		html.append("<summary><span class=\"chev\"></span>")
-				.append("<span class=\"sc-title\"><span class=\"sc-name\">").append(escapeHtml(scenario))
+				.append("<span class=\"sc-title\"><span class=\"sc-name\">").append(escapeHtml(scenario.name))
 				.append("</span><span class=\"badge ").append(failed ? "bad" : "ok").append(" sc-verdict\">")
 				.append(failed ? "Failed" : "Passed").append("</span></span>")
 				.append("<span class=\"sc-stats\">");
@@ -141,7 +281,7 @@ public final class VisualReportWriter {
 		html.append("<div class=\"table-wrap\"><table><thead><tr>")
 				.append("<th class=\"c-step\">Step</th><th>Baseline</th><th>Actual</th><th>Diff</th>")
 				.append("</tr></thead><tbody>");
-		for (StateComparison r : states) {
+		for (StateComparison r : scenario.states) {
 			appendRow(html, r, reportDir);
 		}
 		html.append("</tbody></table></div></details>");
@@ -265,7 +405,18 @@ public final class VisualReportWriter {
 				+ ".stat .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}"
 				+ ".stat.ok .n{color:var(--ok)}.stat.bad .n{color:var(--bad)}"
 				+ "main{padding-top:12px;padding-bottom:44px}"
-				+ ".scenario{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:12px 0;overflow:hidden}"
+				+ ".folder{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:10px 0;overflow:hidden}"
+				+ ".folder>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:9px;"
+				+ "padding:12px 16px;user-select:none}"
+				+ ".folder>summary::-webkit-details-marker{display:none}"
+				+ ".folder[open]>summary .chev{transform:rotate(45deg)}"
+				+ ".node-icon{flex:none;font-size:15px;line-height:1}"
+				+ ".node-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
+				+ "font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;font-weight:600}"
+				+ ".folder-body{padding:2px 12px 10px 30px;border-top:1px solid var(--line)}"
+				+ ".folder .folder{background:transparent;border-color:var(--line)}"
+				+ ".pill.soft{background:#eef1f4;color:var(--muted)}"
+				+ ".scenario{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:10px 0;overflow:hidden}"
 				+ ".scenario summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 18px;user-select:none}"
 				+ ".scenario summary::-webkit-details-marker{display:none}"
 				+ ".chev{width:7px;height:7px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);"

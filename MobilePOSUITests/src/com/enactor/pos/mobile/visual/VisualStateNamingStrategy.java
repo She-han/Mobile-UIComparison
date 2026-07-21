@@ -39,6 +39,34 @@ public final class VisualStateNamingStrategy {
 	}
 
 	/**
+	 * Sanitises a relative folder <em>path</em> (e.g. a feature-file path plus scenario name) into a safe
+	 * nested folder path. Each {@code /}-separated segment is sanitised with the same character policy as
+	 * {@link #scenarioFolderName}, while the {@code /} separators are preserved so the on-disk layout
+	 * mirrors the feature's location. The operation is idempotent: feeding an already-sanitised path back
+	 * in yields the same result.
+	 *
+	 * @param relativePath the raw relative path (forward or back slashes accepted); may be {@code null}
+	 * @return a file-system-safe relative path using {@code /} separators
+	 */
+	public String scenarioFolderPath(String relativePath) {
+		if (relativePath == null || relativePath.trim().isEmpty()) {
+			return "unnamed_scenario";
+		}
+		StringBuilder path = new StringBuilder();
+		for (String segment : relativePath.replace('\\', '/').split("/")) {
+			String trimmed = segment.trim();
+			if (trimmed.isEmpty()) {
+				continue;
+			}
+			if (path.length() > 0) {
+				path.append('/');
+			}
+			path.append(sanitise(trimmed));
+		}
+		return path.length() == 0 ? "unnamed_scenario" : path.toString();
+	}
+
+	/**
 	 * Builds the ordered PNG file name for a single step/state.
 	 *
 	 * @param stepIndex   1-based position of the step within the scenario
